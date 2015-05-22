@@ -13,7 +13,6 @@ public class SupersBow extends Item
     public static final String[] bowPullIconNameArray = new String[] {"pulling_0", "pulling_1", "pulling_2"};
     private static final String __OBFID = "CL_00001777";
     public static final String name = "Super's Right Hand";
-    private static AutoArrow autoarrow;
     public SupersBow()
     {
         this.maxStackSize = 1;
@@ -31,13 +30,11 @@ public class SupersBow extends Item
     }
 
     public EnumAction getItemUseAction(ItemStack stack){
-        MinecraftServer.getServer().addScheduledTask(autoarrow);
         return EnumAction.BOW;
     }
     
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn){
         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-        autoarrow = new AutoArrow(worldIn, playerIn, 3f, 8f);
         return itemStackIn;
     }
     public int getMaxItemUseDuration(ItemStack stack){

@@ -307,7 +307,6 @@ public class BlackMagic{
     /**Methods that should only be used by the server.**/
     /***************************************************/
 	
-    @SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player, Vec3 posVec){
     	int sendRadius = 100;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 
@@ -323,7 +322,6 @@ public class BlackMagic{
 															player.posX, player.posY, player.posZ, sendRadius));
     }
     
-    @SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player,double x, double y, double z){
     	int sendRadius = 100;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 
@@ -341,13 +339,11 @@ public class BlackMagic{
 	
     }
     
-    @SideOnly(Side.SERVER)
     public static void fireArrow(EntityPlayer player){
     	if(Seras.isMaster(player))
     		fireArrow(player, Seras.teleportDistance);
     }
     
-    @SideOnly(Side.SERVER)
 	public static void fireArrow(EntityPlayer player, double reach){
 		if(player.worldObj.isRemote)
 			return;

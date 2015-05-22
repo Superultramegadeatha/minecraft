@@ -75,7 +75,10 @@ public class SupersRightHand extends Item{
         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
         //autoarrow = new AutoArrow(worldIn, playerIn, 3f, 8f);
         //bats(worldIn, playerIn);
-        com.adam.myeffects.BlackMagic.explode2(worldIn, playerIn);
+    	System.out.println("onItemRightClick world obj: " + worldIn.isRemote);
+    	System.out.println("onItemRightClick player.worldObj: " + playerIn.worldObj.isRemote);
+    	System.out.println("Objects are the same: " + worldIn.equals(playerIn.worldObj));
+        com.adam.myeffects.BlackMagic.ignite(worldIn, playerIn);
         return itemStackIn;
     }
     

@@ -47,6 +47,7 @@ public class CommonProxy{
 		MinecraftForge.EVENT_BUS.register(new SuperModEventHandler());
 		FMLCommonHandler.instance().bus().register(new SuperModFMLEventHandler());
 	}
+	
 	public void fmlLifeCycleEvent(FMLPostInitializationEvent event){}
 	
 	public void fmlLifeCycleEvent(FMLServerStartedEvent event){}

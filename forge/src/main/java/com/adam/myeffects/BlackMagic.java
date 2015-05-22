@@ -9,7 +9,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class BlackMagic {
-    
+	/*
     public void meteorShower(World world, EntityPlayer player){
     	//only squares for amount pls.
     	int amount = 100;
@@ -51,7 +51,7 @@ public class BlackMagic {
         	world.spawnEntityInWorld(fireball);
     	}
     }
-
+    
     public static void explode2(World world, EntityPlayer player){
     	//distance from player
     	int distance = 10;
@@ -68,9 +68,9 @@ public class BlackMagic {
 	        					x,y,z, 
 	        					explosionPower, true, true);
     	}
-    }
+    }*/
     
-    public void ignite(World world, EntityPlayer player){
+    public static void ignite(World world, EntityPlayer player){
     	//distance from player
     	int distance = 10;
     	float explosionPower = 5f;
@@ -78,10 +78,15 @@ public class BlackMagic {
     	double y = player.posY + player.getLookVec().yCoord*distance;
     	double z = player.posZ + player.getLookVec().zCoord*distance;
     	Entity e = com.adam.supermod.seras.BlackMagic.getMouseOverEntityLiving(player,500);
+    	System.out.println("Ignite world obj: " + world.isRemote);
+    	System.out.println("Ignite player.worldObj: " + player.worldObj.isRemote);
+    	System.out.println("Objects are the same: " + world.equals(player.worldObj));
+    	
     	if(e != null)
     		e.setFire(100);
     }
     
+    /*
     //bug where static bats are left at spawn point
     //static bats are removed after leaving and entering the game
     //this is probably due to asynchronous call of spawnEntityInWorld
@@ -98,5 +103,5 @@ public class BlackMagic {
         	world.spawnEntityInWorld(bat);
         	//colony[i].spawnExplosionParticle();
         }
-    }
+    }*/
 }

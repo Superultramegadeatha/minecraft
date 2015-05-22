@@ -81,76 +81,73 @@ public class BlackMagic{
 	 * @return the MovingObjectPosition representing the block or entity.
 	 */
     public static MovingObjectPosition getMouseOverAll(EntityPlayer player, double reach){
-        if (player != null){
-            if (player.worldObj != null){
-                Entity pointedEntity = null;
-                MovingObjectPosition mouseOver = getMouseOverBlock(player, reach);
-                //d1 is the distance from the mouseover to the player
-                //but is initialized as the maximum distance to trace over
-                double d1 = reach;
-                Vec3 vec3 = player.getPositionVector();
-                Vec3 playerPosVec = new Vec3(vec3.xCoord, vec3.yCoord + player.eyeHeight, vec3.zCoord);
-                Vec3 playerLookVec = player.getLook(1.0f);
-                Vec3 vec33 = null;
+        if (player != null && player.worldObj != null){
+            Entity pointedEntity = null;
+            MovingObjectPosition mouseOver = getMouseOverBlock(player, reach);
+            //d1 is the distance from the mouseover to the player
+            //but is initialized as the maximum distance to trace over
+            double d1 = reach;
+            Vec3 vec3 = player.getPositionVector();
+            Vec3 playerPosVec = new Vec3(vec3.xCoord, vec3.yCoord + player.eyeHeight, vec3.zCoord);
+            Vec3 playerLookVec = player.getLook(1.0f);
+            Vec3 vec33 = null;
 
-                if (mouseOver != null){
-                    d1 = mouseOver.hitVec.distanceTo(playerPosVec);
-                }
+            if (mouseOver != null){
+                d1 = mouseOver.hitVec.distanceTo(playerPosVec);
+            }
 
-                Vec3 mouseOverPosVec = playerPosVec.addVector(playerLookVec.xCoord * d1, 
-                									playerLookVec.yCoord * d1, 
-                									playerLookVec.zCoord * d1);
-                float f1 = 1.0F;
-                List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, 
-							player.getEntityBoundingBox().addCoord(playerLookVec.xCoord * d1, 
-																   playerLookVec.yCoord * d1, 
-																   playerLookVec.zCoord * d1).expand((double)f1, 
-									 																 (double)f1, 
-									 															 	 (double)f1));
-                double d2 = d1;
-                for (int i = 0; i < list.size(); ++i){
-                    Entity entity1 = (Entity)list.get(i);
-                    
-                    if (entity1.canBeCollidedWith()){
-                    	
-                    	//i guess the collision box is different than the bounding box
-                        float f2 = entity1.getCollisionBorderSize();
-                        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f2, 
-                        																	(double)f2, 
-                        																	(double)f2);
-                        MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(playerPosVec, mouseOverPosVec);
+            Vec3 mouseOverPosVec = playerPosVec.addVector(playerLookVec.xCoord * d1, 
+            									playerLookVec.yCoord * d1, 
+            									playerLookVec.zCoord * d1);
+            float f1 = 1.0F;
+            List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, 
+						player.getEntityBoundingBox().addCoord(playerLookVec.xCoord * d1, 
+															   playerLookVec.yCoord * d1, 
+															   playerLookVec.zCoord * d1).expand((double)f1, 
+								 																 (double)f1, 
+								 															 	 (double)f1));
+            double d2 = d1;
+            for (int i = 0; i < list.size(); ++i){
+                Entity entity1 = (Entity)list.get(i);
+                
+                if (entity1.canBeCollidedWith()){
+                	
+                	//i guess the collision box is different than the bounding box
+                    float f2 = entity1.getCollisionBorderSize();
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f2, 
+                    																	(double)f2, 
+                    																	(double)f2);
+                    MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(playerPosVec, mouseOverPosVec);
 
-                        if (axisalignedbb.isVecInside(playerPosVec)){
-                            if (0.0D < d2 || d2 == 0.0D){
-                                pointedEntity = entity1;
-                                vec33 = movingobjectposition == null ? playerPosVec : movingobjectposition.hitVec;
-                                d2 = 0.0D;
-                            }
+                    if (axisalignedbb.isVecInside(playerPosVec)){
+                        if (0.0D < d2 || d2 == 0.0D){
+                            pointedEntity = entity1;
+                            vec33 = movingobjectposition == null ? playerPosVec : movingobjectposition.hitVec;
+                            d2 = 0.0D;
                         }
-                        else if (movingobjectposition != null){
-                            double d3 = playerPosVec.distanceTo(movingobjectposition.hitVec);
+                    }
+                    else if (movingobjectposition != null){
+                        double d3 = playerPosVec.distanceTo(movingobjectposition.hitVec);
 
-                            if (d3 < d2 || d2 == 0.0D){
-                                if (entity1 == player.ridingEntity && !player.canRiderInteract()){
-                                    if (d2 == 0.0D){
-                                        pointedEntity = entity1;
-                                        vec33 = movingobjectposition.hitVec;
-                                    }
-                                }else{
+                        if (d3 < d2 || d2 == 0.0D){
+                            if (entity1 == player.ridingEntity && !player.canRiderInteract()){
+                                if (d2 == 0.0D){
                                     pointedEntity = entity1;
                                     vec33 = movingobjectposition.hitVec;
-                                    d2 = d3;
                                 }
+                            }else{
+                                pointedEntity = entity1;
+                                vec33 = movingobjectposition.hitVec;
+                                d2 = d3;
                             }
                         }
                     }
                 }
-
-                if (pointedEntity != null && (d2 < d1 || mouseOver == null)){
-                    mouseOver = new MovingObjectPosition(pointedEntity, vec33);
-                }
-                return mouseOver;
             }
+            if (pointedEntity != null && (d2 < d1 || mouseOver == null)){
+                mouseOver = new MovingObjectPosition(pointedEntity, vec33);
+            }
+            return mouseOver;
         }
 		return null;
     }

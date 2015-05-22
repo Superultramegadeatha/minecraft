@@ -1,12 +1,14 @@
 package com.adam.myeffects;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
-//@Mod(modid = SupersEffects.MODID, 
-//	 name = SupersEffects.NAME, 
-//	 version = SupersEffects.VERSION)
+@Mod(modid = SupersEffects.MODID, 
+	 name = SupersEffects.NAME, 
+	 version = SupersEffects.VERSION)
 public class SupersEffects {
     public static final String MODID = "superseffects";
     public static final String NAME = "Super's Effects";
@@ -22,7 +24,8 @@ public class SupersEffects {
     @EventHandler
     //Recepies go here
     public void init(FMLInitializationEvent event){
-    	items.registerRenders();
+    	if(event.getSide() != Side.SERVER)
+    		items.registerRenders();
     	items.registerRecipes();
     }
     

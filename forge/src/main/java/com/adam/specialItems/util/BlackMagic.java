@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
@@ -147,7 +148,40 @@ public class BlackMagic {
 		}
  		return hits;
  	}
-
+	
+	public static LinkedList<MovingObjectPosition> getAllPiercedBlocks(EntityPlayer player, double reach, int rays, int spread){
+		LinkedList<MovingObjectPosition> hits = new LinkedList<MovingObjectPosition>();
+		for(int i = 1; i < rays; i++){
+	        MovingObjectPosition mop = null;
+			Vec3 lookVec = player.getLookVec();
+	        float f = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch);
+	        float f1 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
+	        double d0 = player.prevPosX + (player.posX - player.prevPosX);
+	        double d1 = player.prevPosY + (player.posY - player.prevPosY) + (double)player.getEyeHeight();
+	        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ);
+	        Vec3 start = new Vec3(d0, d1, d2);
+	        Vec3 blockVec = start;
+	        float f2 = MathHelper.cos(-f1 * 0.017453292F - (float)Math.PI);
+	        float f3 = MathHelper.sin(-f1 * 0.017453292F - (float)Math.PI);
+	        float f4 = -MathHelper.cos(-f * 0.017453292F);
+	        float f5 = MathHelper.sin(-f * 0.017453292F);
+	        float f6 = f3 * f4;
+	        float f7 = f2 * f4;
+	        Vec3 end = start.addVector((double)f6 * reach, (double)f5 * reach, (double)f7 * reach);
+			BlockPos block = new BlockPos(start);
+			World world = player.worldObj;
+			
+			for(int j = 0; j < reach; j++){
+				blockVec = blockVec.add(lookVec);
+				block = new BlockPos(blockVec);
+				mop = world.getBlockState(block).getBlock().collisionRayTrace(world, block, start, end);
+				if(mop != null)
+					hits.add(mop);
+			}
+		}
+ 		return hits;
+ 	}
+	
 	public static LinkedList<MovingObjectPosition> getAllPiercedEntities(EntityPlayer player, double reach){
 		if (player != null){
             if (player.worldObj != null){
@@ -204,7 +238,6 @@ public class BlackMagic {
 		    						world.rand.nextGaussian()*mag/100.0,  
 		    						world.rand.nextGaussian()*mag/100.0, 
 		    						world.rand.nextGaussian()*mag/100.0, 0);
-    		
 			if(mop.typeOfHit == MovingObjectType.BLOCK){
 		    	pos = mop.getBlockPos();
 				block = world.getBlockState(pos).getBlock();
@@ -228,8 +261,6 @@ public class BlackMagic {
 				if(world.isAirBlock(pos) && Blocks.fire.canCatchFire(world, mop.getBlockPos(), face)){
 					world.setBlockState(pos, fire);
 				}
-			}else if(mop.typeOfHit == MovingObjectType.ENTITY){
-				mop.entityHit.setFire(mag);
 			}
     	}
     	
@@ -237,6 +268,8 @@ public class BlackMagic {
     	for(MovingObjectPosition mop: hits){
     		if(mop != null && mop.entityHit != null)
     			mop.entityHit.setFire(burnTime * mag);
+				mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(player), magnitude/mag);
+				System.out.println("Damage : " + magnitude/mag);
     	}
     }
     

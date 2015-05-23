@@ -387,6 +387,7 @@ public class BlackMagic{
 		if(e != null){
 			AttributeModifier addMaxHealth = new AttributeModifier("generic.maxHealth", 10, 0);
 			e.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(addMaxHealth);
+			e.setHealth(e.getMaxHealth());
 			System.out.println("Max health is now " + e.getMaxHealth() + ".");
 		}
 	}

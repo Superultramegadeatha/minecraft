@@ -18,9 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.adam.supermod.SuperModEventHandler;
 import com.adam.supermod.SuperModFMLEventHandler;
-import com.adam.supermod.networking.AbilityMessage;
-import com.adam.supermod.proxy.client.ClientMessageHandler;
-import com.adam.supermod.proxy.server.ServerMessageHandler;
+import com.adam.supermod.network.AbilityMessage;
+import com.adam.supermod.network.client.ClientMessageHandler;
+import com.adam.supermod.network.server.ServerMessageHandler;
 import com.adam.supermod.seras.Seras;
 
 

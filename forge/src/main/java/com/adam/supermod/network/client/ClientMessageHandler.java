@@ -1,4 +1,4 @@
-package com.adam.supermod.proxy.client;
+package com.adam.supermod.network.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import com.adam.supermod.networking.AbilityMessage;
+import com.adam.supermod.network.AbilityMessage;
 import com.adam.supermod.seras.BlackMagic;
 
 public class ClientMessageHandler implements IMessageHandler<AbilityMessage, IMessage>{

@@ -1,37 +1,40 @@
-package com.adam.myeffects;
+package com.adam.specialItems;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
+
+import com.adam.specialItems.proxy.CommonProxy;
 
 @Mod(modid = SupersEffects.MODID, 
 	 name = SupersEffects.NAME, 
 	 version = SupersEffects.VERSION)
 public class SupersEffects {
-    public static final String MODID = "superseffects";
-    public static final String NAME = "Super's Effects";
-    public static final String VERSION = "0.1";
-    private SupersItems items;
+    public static final String MODID = "specialitems";
+    public static final String NAME = "Super's Special Items";
+    public static final String VERSION = "0.0.2";
+    
+	@SidedProxy(clientSide="com.adam.specialItems.proxy.client.ClientProxy", 
+				serverSide="com.adam.specialItems.proxy.server.ServerProxy")
+	public static CommonProxy proxy;
+	
     
     @EventHandler
-    //Initialize all items here
     public void preInit(FMLPreInitializationEvent event){
-    	items = new SupersItems();
+        // each instance of your item should have a name that is unique within your mod.  use lower case.
+    	proxy.fmlLifeCycleEvent(event);
     }
     
     @EventHandler
-    //Recepies go here
     public void init(FMLInitializationEvent event){
-    	if(event.getSide() != Side.SERVER)
-    		items.registerRenders();
-    	items.registerRecipes();
+    	proxy.fmlLifeCycleEvent(event);
     }
     
     @EventHandler
-    //not sure what goes in here yet
     public void postInit(FMLPostInitializationEvent event){
+    	proxy.fmlLifeCycleEvent(event);
     }
     
     

@@ -1,12 +1,11 @@
 package com.adam.supermod.seras;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.adam.supermod.networking.AbilityMessage;
-import com.adam.supermod.proxy.CommonProxy;
-
-import net.minecraft.client.Minecraft;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,8 +22,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.adam.supermod.network.AbilityMessage;
+import com.adam.supermod.proxy.CommonProxy;
 
 
 //not always facing an entity after teleporting to it

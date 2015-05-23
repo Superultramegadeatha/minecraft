@@ -1,4 +1,4 @@
-package com.adam.supermod.networking;
+package com.adam.supermod.network;
 
 import java.util.UUID;
 

@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import com.adam.supermod.SuperMod;
-import com.adam.supermod.networking.AbilityMessage;
+import com.adam.supermod.network.AbilityMessage;
 import com.adam.supermod.proxy.CommonProxy;
 
 

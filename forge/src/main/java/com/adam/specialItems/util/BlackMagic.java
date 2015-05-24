@@ -6,6 +6,10 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -81,6 +85,7 @@ public class BlackMagic {
 	        					explosionPower, true, true);
     	}
     }*/
+	
 	/**
 	 * This method traces through the players look vector to a maximum distance and returns 
 	 * the block or entity the player was looking at. If the trace does not collide with anything but air or liquid
@@ -113,6 +118,89 @@ public class BlackMagic {
 	}
 	
 	/**
+	 * Code from {@link net.minecraft.client.renderer.EntityRenderer#getMouseOver()} was modified
+	 * to return the block or entity the player is looking at for any given distance.
+	 * @see net.minecraft.client.renderer.EntityRenderer#getMouseOver(float)
+	 * @param player The player for whom we are seeing through.
+	 * @param reach The maximum distance to trace.
+	 * @return the MovingObjectPosition representing the block or entity.
+	 */
+    public static MovingObjectPosition getMouseOverAll(EntityPlayer player, double reach){
+        if (player != null){
+            if (player.worldObj != null){
+                Entity pointedEntity = null;
+                MovingObjectPosition mouseOver = getMouseOverBlock(player, reach);
+                //d1 is the distance from the mouseover to the player
+                //but is initialized as the maximum distance to trace over
+                double d1 = reach;
+                Vec3 vec3 = player.getPositionVector();
+                Vec3 playerPosVec = new Vec3(vec3.xCoord, vec3.yCoord + player.eyeHeight, vec3.zCoord);
+                Vec3 playerLookVec = player.getLook(1.0f);
+                Vec3 vec33 = null;
+
+                if (mouseOver != null){
+                    d1 = mouseOver.hitVec.distanceTo(playerPosVec);
+                }
+
+                Vec3 mouseOverPosVec = playerPosVec.addVector(playerLookVec.xCoord * d1, 
+                									playerLookVec.yCoord * d1, 
+                									playerLookVec.zCoord * d1);
+                float f1 = 1.0F;
+                List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, 
+							player.getEntityBoundingBox().addCoord(playerLookVec.xCoord * d1, 
+																   playerLookVec.yCoord * d1, 
+																   playerLookVec.zCoord * d1).expand((double)f1, 
+									 																 (double)f1, 
+									 															 	 (double)f1));
+                double d2 = d1;
+                for (int i = 0; i < list.size(); ++i){
+                    Entity entity1 = (Entity)list.get(i);
+                    
+                    if (entity1.canBeCollidedWith()){
+                    	
+                    	//i guess the collision box is different than the bounding box
+                        float f2 = entity1.getCollisionBorderSize();
+                        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f2, 
+                        																	(double)f2, 
+                        																	(double)f2);
+                        MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(playerPosVec, mouseOverPosVec);
+
+                        if (axisalignedbb.isVecInside(playerPosVec)){
+                            if (0.0D < d2 || d2 == 0.0D){
+                                pointedEntity = entity1;
+                                vec33 = movingobjectposition == null ? playerPosVec : movingobjectposition.hitVec;
+                                d2 = 0.0D;
+                            }
+                        }
+                        else if (movingobjectposition != null){
+                            double d3 = playerPosVec.distanceTo(movingobjectposition.hitVec);
+
+                            if (d3 < d2 || d2 == 0.0D){
+                                if (entity1 == player.ridingEntity && !player.canRiderInteract()){
+                                    if (d2 == 0.0D){
+                                        pointedEntity = entity1;
+                                        vec33 = movingobjectposition.hitVec;
+                                    }
+                                }else{
+                                    pointedEntity = entity1;
+                                    vec33 = movingobjectposition.hitVec;
+                                    d2 = d3;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (pointedEntity != null && (d2 < d1 || mouseOver == null)){
+                    mouseOver = new MovingObjectPosition(pointedEntity, vec33);
+                }
+                return mouseOver;
+            }
+        }
+		return null;
+    }
+	
+	/**
 	 * Traces through all blocks and entities up to a given distance reach and returns them.
 	 * @param player
 	 * @param reach
@@ -124,17 +212,17 @@ public class BlackMagic {
 		Vec3 lookVec = player.getLookVec();
         float f = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch);
         float f1 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
-        double d0 = player.prevPosX + (player.posX - player.prevPosX);
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) + (double)player.getEyeHeight();
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ);
-        Vec3 start = new Vec3(d0, d1, d2);
-        Vec3 blockVec = start;
         float f2 = MathHelper.cos(-f1 * 0.017453292F - (float)Math.PI);
         float f3 = MathHelper.sin(-f1 * 0.017453292F - (float)Math.PI);
         float f4 = -MathHelper.cos(-f * 0.017453292F);
         float f5 = MathHelper.sin(-f * 0.017453292F);
         float f6 = f3 * f4;
         float f7 = f2 * f4;
+        double d0 = player.prevPosX + (player.posX - player.prevPosX) + f2 * 0.5;
+        double d1 = player.prevPosY + (player.posY - player.prevPosY) + (double)player.getEyeHeight();
+        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) - f3 * 0.5;
+        Vec3 start = new Vec3(d0, d1, d2);
+        Vec3 blockVec = start;
         Vec3 end = start.addVector((double)f6 * reach, (double)f5 * reach, (double)f7 * reach);
 		BlockPos block = new BlockPos(start);
 		World world = player.worldObj;
@@ -145,39 +233,6 @@ public class BlackMagic {
 			mop = world.getBlockState(block).getBlock().collisionRayTrace(world, block, start, end);
 			if(mop != null)
 				hits.add(mop);
-		}
- 		return hits;
- 	}
-	
-	public static LinkedList<MovingObjectPosition> getAllPiercedBlocks(EntityPlayer player, double reach, int rays, int spread){
-		LinkedList<MovingObjectPosition> hits = new LinkedList<MovingObjectPosition>();
-		for(int i = 1; i < rays; i++){
-	        MovingObjectPosition mop = null;
-			Vec3 lookVec = player.getLookVec();
-	        float f = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch);
-	        float f1 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
-	        double d0 = player.prevPosX + (player.posX - player.prevPosX);
-	        double d1 = player.prevPosY + (player.posY - player.prevPosY) + (double)player.getEyeHeight();
-	        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ);
-	        Vec3 start = new Vec3(d0, d1, d2);
-	        Vec3 blockVec = start;
-	        float f2 = MathHelper.cos(-f1 * 0.017453292F - (float)Math.PI);
-	        float f3 = MathHelper.sin(-f1 * 0.017453292F - (float)Math.PI);
-	        float f4 = -MathHelper.cos(-f * 0.017453292F);
-	        float f5 = MathHelper.sin(-f * 0.017453292F);
-	        float f6 = f3 * f4;
-	        float f7 = f2 * f4;
-	        Vec3 end = start.addVector((double)f6 * reach, (double)f5 * reach, (double)f7 * reach);
-			BlockPos block = new BlockPos(start);
-			World world = player.worldObj;
-			
-			for(int j = 0; j < reach; j++){
-				blockVec = blockVec.add(lookVec);
-				block = new BlockPos(blockVec);
-				mop = world.getBlockState(block).getBlock().collisionRayTrace(world, block, start, end);
-				if(mop != null)
-					hits.add(mop);
-			}
 		}
  		return hits;
  	}
@@ -201,14 +256,11 @@ public class BlackMagic {
 																   playerLookVec.zCoord * reach).expand(1,1,1));
                 for (int i = 0; i < list.size(); ++i){
                     Entity entity1 = (Entity)list.get(i);
-                    System.out.println("Found some shit.");
                     if (entity1.canBeCollidedWith()){
-                    	System.out.println("This shit can be collided.");
                         float cbs = entity1.getCollisionBorderSize();
                         AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(cbs, cbs, cbs);
                         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(playerPosVec, mouseOverPosVec);
                         if (movingobjectposition != null){
-                        	System.out.println("Added some shit.");
                         	hits.add(new MovingObjectPosition(entity1, movingobjectposition.hitVec));
                         }
                     }
@@ -218,17 +270,14 @@ public class BlackMagic {
         }
 		return null;
 	}
-    
-    public static void ignite(World world, EntityPlayer player, byte magnitude){
-    	LinkedList<MovingObjectPosition> hits = getAllPiercedBlocks(player, magnitude);
+	
+	private static void ignitePiercedBlocks(World world, EntityPlayer player, byte magnitude){
+		LinkedList<MovingObjectPosition> hits = getAllPiercedBlocks(player, magnitude);
     	IBlockState fire = Blocks.fire.getDefaultState();
     	BlockPos pos;
-    	Block block;
     	EnumFacing face;
     	int mag = (int) Math.ceil(5.0*magnitude/Byte.MAX_VALUE);
-    	int burnTime = 3;
-    	System.out.println(magnitude);
-    	System.out.println(mag);
+    	
     	for(MovingObjectPosition mop: hits){
     		for(int i = 0; i < mag; i++)
 		    	world.spawnParticle(EnumParticleTypes.FLAME, 
@@ -240,7 +289,7 @@ public class BlackMagic {
 		    						world.rand.nextGaussian()*mag/100.0, 0);
 			if(mop.typeOfHit == MovingObjectType.BLOCK){
 		    	pos = mop.getBlockPos();
-				block = world.getBlockState(pos).getBlock();
+		    	Block block = world.getBlockState(pos).getBlock();				
 				face = mop.sideHit;
 				switch(face){
 				case   UP: 	pos = pos.up();
@@ -263,16 +312,120 @@ public class BlackMagic {
 				}
 			}
     	}
-    	
-    	hits = getAllPiercedEntities(player, magnitude);
-    	for(MovingObjectPosition mop: hits){
-    		if(mop != null && mop.entityHit != null)
-    			mop.entityHit.setFire(burnTime * mag);
-				mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(player), magnitude/mag);
-				System.out.println("Damage : " + magnitude/mag);
-    	}
+	}
+	
+    public static void ignite(final World world, final EntityPlayer player, final byte magnitude){
+    	ignitePiercedBlocks(world, player, magnitude);
+    	ignitePiercedBlocks(world, player, magnitude);
     }
     
+    
+	public static void firebolt(World world, EntityPlayer player, byte magnitude){
+		LinkedList<MovingObjectPosition> hits = new LinkedList<MovingObjectPosition>();
+        MovingObjectPosition mop = null;
+        double right = 0.5;
+		Vec3 mouseOverVec = getMouseOverAll(player, magnitude).hitVec;
+		float itemLookAngle = (float) Math.tan(right/player.getPositionVector().distanceTo(mouseOverVec));
+        float f = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch);
+        float f1 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw);
+        float f2 = MathHelper.cos(-f1 * 0.017453292F - (float)Math.PI + itemLookAngle);
+        float f3 = MathHelper.sin(-f1 * 0.017453292F - (float)Math.PI + itemLookAngle);
+        float f4 = -MathHelper.cos(-f * 0.017453292F);
+        float f5 = MathHelper.sin(-f * 0.017453292F);
+        float f6 = f3 * f4;
+        float f7 = f2 * f4;
+        
+        //translate vector up to the players eyes, and right
+        double d0 = player.prevPosX + (player.posX - player.prevPosX) + f2 * right;
+        double d1 = player.prevPosY + (player.posY - player.prevPosY) + (double)player.getEyeHeight();
+        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) - f3 * right;
+        Vec3 itemLocVec = new Vec3(d0, d1, d2);
+        Vec3 iterVec = itemLocVec;
+		Vec3 itemLookVec = new Vec3((double) f6, (double) f5, (double) f7);
+        Vec3 piercingVec = itemLocVec.addVector((double)f6 * magnitude, (double)f5 * magnitude, (double)f7 * magnitude);
+		BlockPos block = new BlockPos(itemLocVec);
+
+    	int mag = (int) Math.ceil(5.0*magnitude/Byte.MAX_VALUE);
+    	int burnTime = 3;
+
+		
+        List<Entity> entitiesInArea = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, 
+						player.getEntityBoundingBox().addCoord(itemLookVec.xCoord * magnitude, 
+																itemLookVec.yCoord * magnitude, 
+																itemLookVec.zCoord * magnitude).expand(1,1,1));
+		for(int i = 0; i < magnitude; i++){
+			iterVec = iterVec.add(itemLookVec);
+			block = new BlockPos(iterVec);
+			mop = world.getBlockState(block).getBlock().collisionRayTrace(world, block, itemLocVec, piercingVec);
+			
+			if(mop != null){
+				igniteBlock(world, mop);
+				spawnFireboltParticles(world, iterVec.xCoord, iterVec.yCoord, iterVec.zCoord, mag);
+				for(int j = 0; j < entitiesInArea.size(); j++){
+					Entity entity1 = entitiesInArea.get(j);
+				     if (entity1.canBeCollidedWith()){
+				         float cbs = entity1.getCollisionBorderSize();
+				         AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(cbs, cbs, cbs);
+				         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(itemLocVec, piercingVec);
+				         if (movingobjectposition != null){
+				     		entity1.setFire(burnTime * mag);
+				    		entity1.attackEntityFrom(DamageSource.causePlayerDamage(player), magnitude/mag);
+				    		entitiesInArea.remove(j);
+				         }
+				     }
+				}
+			}
+		}
+        world.playSoundAtEntity(player, "mob.ghast.fireball", magnitude/75.0f, 10f / magnitude + 0.5f);
+ 	}
+	
+	public static void spawnFireboltParticles(World world, double x, double y, double z, int mag){
+		EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
+		EntityFlameFX.Factory flameFXF = new EntityFlameFX.Factory();
+		EntityFX flameFX = null;
+		for(int i = 0; i < mag; i++){
+			flameFX = flameFXF.getEntityFX(1, world,
+							x + world.rand.nextGaussian()*mag/20.0, 
+							y + world.rand.nextGaussian()*mag/20.0,
+							z + world.rand.nextGaussian()*mag/20.0, 
+							world.rand.nextGaussian()*mag/100.0,  
+							world.rand.nextGaussian()*mag/100.0, 
+							world.rand.nextGaussian()*mag/100.0);		
+			flameFX.setRBGColorF(0.2f, 0f, 0.65359f);
+			rend.addEffect(flameFX);
+		}
+	}
+
+	private static void igniteBlock(World world, MovingObjectPosition mop){
+    	IBlockState fire = Blocks.fire.getDefaultState();
+		BlockPos pos;
+		EnumFacing face;
+		if(mop.typeOfHit == MovingObjectType.BLOCK){
+	    	pos = mop.getBlockPos();
+	    	Block block = world.getBlockState(pos).getBlock();
+	    	System.out.println(block.getLightValue());
+			face = mop.sideHit;
+			switch(face){
+			case   UP: 	pos = pos.up();
+				break;
+			case DOWN:	pos = pos.down();
+				break;
+			case EAST: 	pos = pos.east();
+				break;
+			case WEST: 	pos = pos.west();
+				break;
+			case NORTH: pos = pos.north();
+				break;
+			case SOUTH: pos = pos.south();
+				break;
+			default: System.out.println("Unknown EnumFacing.");
+				break;
+			}
+			if(world.isAirBlock(pos) && Blocks.fire.canCatchFire(world, mop.getBlockPos(), face)){
+				world.setBlockState(pos, fire);
+			}
+		}
+	}
     /*
     //bug where static bats are left at spawn point
     //static bats are removed after leaving and entering the game

@@ -1,14 +1,19 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "SuperMod",
+  "name": "Super's Modifications",
+  "description": "New player abilities and items to those who are worthy.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Super_Deathagon"],
+  "credits": "My thanks to:
+							The makers of Diablo I and II for some borrowed sound effects.
+							TheGreyGhost for some awesome tutorials.
+							The makers and maintainers of Forge.
+							Jake from state-farm and his khaki pants.
+							",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

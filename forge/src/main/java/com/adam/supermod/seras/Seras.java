@@ -27,15 +27,14 @@ public class Seras {
 	private static KeyBinding[] abilityKeys;
 	private static boolean healing = false;
 	public static double teleportDistance = 500;
-
-	@SideOnly(Side.CLIENT)
 	private static SerasGui gui;
 	
 	public static boolean isMaster(EntityPlayer player){
-		if(player != null && player.getName().equals(SuperMod.MODAUTHOR))
-			return true;
-		else 
-			return false;
+		for(String name: SuperMod.ModUserList){
+			if(player != null && player.getName().equals(name))
+				return true;
+		}
+		return false;
 	}
 	
 	@SideOnly(Side.CLIENT)

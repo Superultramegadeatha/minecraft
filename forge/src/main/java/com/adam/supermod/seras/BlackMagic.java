@@ -6,6 +6,11 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntitySpellParticleFX;
+import net.minecraft.client.particle.EntitySpellParticleFX.WitchFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -178,17 +183,47 @@ public class BlackMagic{
 	 * @param player The player to spawn particles around.
 	 * @see net.minecraft.world.World#spawnParticle(EnumParticleTypes, double, double, double, double, double, double, int)
 	 */
-    public static void spawnTeleportParticles(EntityPlayer player){
-		for(int i = 0; i < 32; i++)
-			player.worldObj.spawnParticle(EnumParticleTypes.SPELL_WITCH, 
+    public static void spawnTeleportParticlesRandom(EntityPlayer player){
+    	EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
+    	WitchFactory spellFXF = new EntitySpellParticleFX.WitchFactory();
+    	EntityFX spellFX = null;
+		for(int i = 0; i < 32; i++){
+			spellFX = spellFXF.getEntityFX(0, player.worldObj, 
 											player.posX + player.worldObj.rand.nextDouble() * 2.0 - 1.0, 
 											player.posY + player.worldObj.rand.nextDouble() * 2.0, 
 											player.posZ+ player.worldObj.rand.nextDouble() * 2.0 - 1.0,
 											player.worldObj.rand.nextGaussian()/2.0, 
 											player.worldObj.rand.nextGaussian(), 
-											player.worldObj.rand.nextGaussian()/2.0, 
-											new int[0]);
+											player.worldObj.rand.nextGaussian()/2.0);
+			spellFX.setRBGColorF(0.35f, 0f, 0.65359f);
+			rend.addEffect(spellFX);
+		}
     }
+    
+    public static void spawnTeleportParticles(EntityPlayer player){
+    	World world = player.worldObj;
+    	EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
+    	WitchFactory spellFXF = new EntitySpellParticleFX.WitchFactory();
+    	EntityFX spellFX = null;
+    	double x = 0;
+    	double y = 0;
+    	double z = 0;
+    	float rand;
+    	for(int j = 0; j < 3; j++){
+    		rand = (float)world.rand.nextDouble();
+			for(int i = 0; i < 32; i++){
+				x = Math.sin(i/3.0 + Math.PI/3.0*j);
+				z = Math.cos(i/3.0 + Math.PI/3.0*j);
+				spellFX = spellFXF.getEntityFX(0, player.worldObj, 
+												player.posX + x, 
+												player.posY + i/10.0, 
+												player.posZ + z,
+												0,0,0);
+				spellFX.setRBGColorF(0.35f*rand, 0f, 0.65359f*rand);
+				rend.addEffect(spellFX);
+			}  
+    	}
+	}
 	
     /**
      * Causes a player to teleport to where they are looking, limited by a given maximum distance.

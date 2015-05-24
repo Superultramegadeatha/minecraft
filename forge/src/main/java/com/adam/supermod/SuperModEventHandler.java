@@ -19,8 +19,9 @@ public class SuperModEventHandler{
 
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 	public void onEvent(NameFormat event){	
-		if(event.username.equals(SuperMod.MODAUTHOR))
-			event.displayname = "Adam";
+		for(String name: SuperMod.ModUserList)
+			if(event.username.equals(name))
+				event.displayname = "You are on Super's list.";
 	}
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)

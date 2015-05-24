@@ -27,21 +27,24 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public class SuperMod {
 	public static final String MODID = "supermod";
 	public static final String MODNAME = "SuperMod";
-	public static final String MODVERSION = "0.0.2";
-	public static final String MODDESCRIPTION = "It's totally super!";
-	public static final String MODAUTHOR = "Super_Deathagon";
-	public static final String MODCREDITS = "Dedicated to the police girl.";
-	@Instance(MODID)
-	public static SuperMod instance;
+	public static final String MODVERSION = "0.0.4";
+	//public static final String MODDESCRIPTION = "It's totally super!";
+	//public static final String MODAUTHOR = "Super_Deathagon";
+	//public static final String MODCREDITS = "Dedicated to the police girl.";
+    public static String[] ModUserList = new String[]{"Super_Deathagon"};
+
+
 	@SidedProxy(clientSide="com.adam.supermod.proxy.client.ClientProxy", 
 				serverSide="com.adam.supermod.proxy.server.ServerProxy")
 	public static CommonProxy proxy;
-	
+	@Instance(MODID)
+	public static SuperMod instance;
+
 	@EventHandler
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
-		event.getModMetadata().credits = MODCREDITS;
-		event.getModMetadata().authorList.add(EnumChatFormatting.RED+MODAUTHOR);
-		event.getModMetadata().description = EnumChatFormatting.YELLOW+MODDESCRIPTION;
+		//event.getModMetadata().credits = MODCREDITS;
+		//event.getModMetadata().authorList.add(EnumChatFormatting.RED+MODAUTHOR);
+		//event.getModMetadata().description = EnumChatFormatting.YELLOW+MODDESCRIPTION;
 		proxy.fmlLifeCycleEvent(event);
 	}
 	

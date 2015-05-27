@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.AxisAlignedBB;
@@ -27,6 +28,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.adam.supermod.network.AbilityMessage;
 import com.adam.supermod.proxy.CommonProxy;
@@ -200,7 +203,7 @@ public class BlackMagic{
 		}
     }
     
-    public static void spawnTeleportParticles(EntityPlayer player){
+    public static void spawnTeleportParticlesHelix(EntityPlayer player){
     	World world = player.worldObj;
     	EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
     	WitchFactory spellFXF = new EntitySpellParticleFX.WitchFactory();
@@ -209,21 +212,43 @@ public class BlackMagic{
     	double y = 0;
     	double z = 0;
     	float rand;
-    	for(int j = 0; j < 3; j++){
-    		rand = (float)world.rand.nextDouble();
-			for(int i = 0; i < 32; i++){
-				x = Math.sin(i/3.0 + Math.PI/3.0*j);
-				z = Math.cos(i/3.0 + Math.PI/3.0*j);
+    	float red = 0.35f;
+    	float green = 0f;
+    	float blue = 0.65359f;
+    	int numOfHelix = 5;
+    	int numOfParticles = 10;
+    	float twist = 8.0f;
+    	float height = 3.0f;
+    	for(int j = 0; j < numOfHelix; j++){
+			for(int i = 0; i < numOfParticles; i++){
+				y = i/height;
+				x = Math.sin(i/twist + 2.0*Math.PI/numOfHelix*j);
+				z = Math.cos(i/twist + 2.0*Math.PI/numOfHelix*j);
+				
 				spellFX = spellFXF.getEntityFX(0, player.worldObj, 
 												player.posX + x, 
-												player.posY + i/10.0, 
+												player.posY + y, 
 												player.posZ + z,
 												0,0,0);
-				spellFX.setRBGColorF(0.35f*rand, 0f, 0.65359f*rand);
+				spellFX.setRBGColorF(red*i/numOfParticles,
+									green,
+									blue*i/numOfParticles);
 				rend.addEffect(spellFX);
 			}  
     	}
 	}
+    
+    @SideOnly(Side.SERVER)
+    public static void spawnTeleportBats(EntityPlayer player){
+    	World world = player.worldObj;
+    	int numOfBats = 16;
+    	EntityBat bat = null;
+    	for(int i = 0; i < numOfBats; i++){
+    		bat = new EntityBat(world);
+    		bat.setPosition(player.posX, player.posY, player.posZ);
+    		world.spawnEntityInWorld(bat);
+    	}
+    }
 	
     /**
      * Causes a player to teleport to where they are looking, limited by a given maximum distance.

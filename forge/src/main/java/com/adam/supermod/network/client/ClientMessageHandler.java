@@ -29,17 +29,11 @@ public class ClientMessageHandler implements IMessageHandler<AbilityMessage, IMe
 		EntityPlayer sendingPlayer = world.getPlayerEntityByUUID(message.getSendingPlayerUUID());
 		
 		switch (message.getAbility()) {
-		case ARROW: 
-			//BlackMagic.fireArrow(sendingPlayer);
-			break;
 		case TELEPORT: 
-			BlackMagic.spawnTeleportParticles(sendingPlayer);
-			break;
-		case FAMILIARS: 
-			//BlackMagic.makeufat(sendingPlayer);
+			BlackMagic.spawnTeleportParticlesHelix(sendingPlayer);
 			break;
 		default: 
-			System.err.println("Invalid ability type in ServerMessageHandler:" + String.valueOf(message.getAbility()));
+			System.err.println("Invalid ability type in ClientMessageHandler:" + String.valueOf(message.getAbility()));
 			return;
 		}
 	}

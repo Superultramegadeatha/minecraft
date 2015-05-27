@@ -1,5 +1,7 @@
 package com.super_deathagon.itemspecial.proxy;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -38,6 +40,11 @@ public class CommonProxy{
 	public void registerItems(){
         srh = (ItemSpecialSpear)(new ItemSpecialSpear().setUnlocalizedName("itemspecialspear"));
         GameRegistry.registerItem(srh, "itemspecialspear");
+		GameRegistry.addRecipe(new ItemStack(srh), new Object[]{
+		     "   ",
+		     " A ",
+		     "   ", 
+		     'A', Blocks.dirt});
 	}
 	
 	public void registerNetworkWrapper(FMLPreInitializationEvent event){

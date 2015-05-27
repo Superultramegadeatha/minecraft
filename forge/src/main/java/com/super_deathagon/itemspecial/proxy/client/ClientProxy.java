@@ -21,10 +21,5 @@ public class ClientProxy extends CommonProxy{
 	    ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(SpecialItems.MODID + ":itemspecialspear", "inventory");
 	    final int DEFAULT_ITEM_SUBTYPE = 0;
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.srh, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
-		GameRegistry.addRecipe(new ItemStack(srh), new Object[]{
-		     "   ",
-		     " A ",
-		     "   ", 
-		     'A', Blocks.dirt});
 	}
 }

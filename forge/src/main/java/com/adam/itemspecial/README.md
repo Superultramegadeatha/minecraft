@@ -15,9 +15,9 @@
     <dd>freeze (replace air in an area with ice)</dd>
     <dd>explosion(can be regular or firey and varies in intensity)</dd>
     <dd>summon familiars(summon entities to fight for you for a short time)</dd>
-<dt>Special Attributes
+<dt>Special Attributes</dt>
     <dl>
-    <dt>increased/reduced
+    <dt>increased/reduced</dt>
         <dl>
         <dd>health/regen</dd>
         <dd>armor</dd>
@@ -28,7 +28,5 @@
         <dd>speed</dd>
         <dd>cooldown</dd>
         </dl>
-    </dt>
     </dl>
-</dt>
 </dl>

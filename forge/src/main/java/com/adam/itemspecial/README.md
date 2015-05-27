@@ -16,7 +16,7 @@
     <dd>explosion(can be regular or firey and varies in intensity)</dd>
     <dd>summon familiars(summon entities to fight for you for a short time)</dd>
 <dt>Special Attributes</dt>
-    <dl>
+   <dd><dl>
     <dt>increased/reduced</dt>
         <dd>health/regen</dd>
         <dd>armor</dd>
@@ -27,4 +27,5 @@
         <dd>speed</dd>
         <dd>cooldown</dd>
     </dl>
+    <dd>
 </dl>

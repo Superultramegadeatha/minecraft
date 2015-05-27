@@ -1,19 +1,27 @@
 [
 {
-  "modid": "SuperMod",
-  "name": "Super's Modifications",
+  "modid": "supermod",
+  "name": "Super's Mod",
   "description": "New player abilities and items to those who are worthy.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "0.0.4",
+  "mcversion": "1.8",
   "url": "",
   "updateUrl": "",
   "authorList": ["Super_Deathagon"],
-  "credits": "My thanks to:
-							The makers of Diablo I and II for some borrowed sound effects.
-							TheGreyGhost for some awesome tutorials.
-							The makers and maintainers of Forge.
-							Jake from state-farm and his khaki pants.
-							",
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}{
+  "modid": "itemspecial",
+  "name": "Super's Items",
+  "description": "New player abilities and items to those who are worthy.",
+  "version": "0.0.4",
+  "mcversion": "1.8",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Super_Deathagon"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

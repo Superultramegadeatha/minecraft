@@ -18,7 +18,6 @@
 <dt>Special Attributes</dt>
     <dl>
     <dt>increased/reduced</dt>
-        <dl>
         <dd>health/regen</dd>
         <dd>armor</dd>
         <dd>experience</dd>
@@ -27,6 +26,5 @@
         <dd>durability</dd>
         <dd>speed</dd>
         <dd>cooldown</dd>
-        </dl>
     </dl>
 </dl>

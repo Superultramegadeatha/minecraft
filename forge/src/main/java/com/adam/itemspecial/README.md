@@ -9,12 +9,13 @@
 <dt>Special Abilities(Can cast a spell with it.(needs cooldown))</dt>
     <dd>teleport</dd>
     <dd>fly (for a short time)</dd>
-    <dd>fireball(projectile that burns an area on impact but does not explode)</dd>
+    <dd>firebolt</dd>
     <dd>chain lightning (not sure)</dd>
     <dd>flood (replace air in an area with water(for a time))</dd>
     <dd>freeze (replace air in an area with ice)</dd>
     <dd>explosion(can be regular or firey and varies in intensity)</dd>
     <dd>summon familiars(summon entities to fight for you for a short time)</dd>
+    <dd>aoe knockback/knockup</dd>
 <dt>Special Attributes</dt>
    <dd><dl>
     <dt>increased/reduced</dt>

@@ -1,5 +1,5 @@
 <h2>Item Ideas</h2>
-<d1>
+<dl>
 <dt>Aura</dt>
     <dd>Health regen</dd>
     <dd>Speed boost/reduction</dd>
@@ -16,7 +16,7 @@
     <dd>explosion(can be regular or firey and varies in intensity)</dd>
     <dd>summon familiars(summon entities to fight for you for a short time)</dd>
 <dt>Special Attributes</dt>
-    <d2>
+    <dl>
     <dt>increased/reduced</dt>
         <dd>health/regen</dd>
         <dd>armor</dd>
@@ -26,5 +26,5 @@
         <dd>durability</dd>
         <dd>speed</dd>
         <dd>cooldown</dd>
-    </d2>
-</d1>
+    </dl>
+</dl>

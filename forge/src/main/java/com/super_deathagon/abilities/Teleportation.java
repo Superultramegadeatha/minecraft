@@ -1,4 +1,4 @@
-package com.super_deathagon.util;
+package com.super_deathagon.abilities;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.proxy.CommonProxy;
+import com.super_deathagon.util.MouseOverHelper;
 
 public class Teleportation {
 	/**
@@ -31,6 +32,7 @@ public class Teleportation {
 	 * @param player The player to spawn particles around.
 	 * @see net.minecraft.world.World#spawnParticle(EnumParticleTypes, double, double, double, double, double, double, int)
 	 */
+	@SideOnly(Side.CLIENT)
     public static void spawnTeleportParticlesRandom(EntityPlayer player){
     	EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
     	WitchFactory spellFXF = new EntitySpellParticleFX.WitchFactory();
@@ -48,6 +50,7 @@ public class Teleportation {
 		}
     }
     
+	@SideOnly(Side.CLIENT)
     public static void spawnTeleportParticlesHelix(EntityPlayer player){
     	World world = player.worldObj;
     	EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
@@ -82,18 +85,6 @@ public class Teleportation {
 			}  
     	}
 	}
-    
-    @SideOnly(Side.SERVER)
-    public static void spawnTeleportBats(EntityPlayer player){
-    	World world = player.worldObj;
-    	int numOfBats = 16;
-    	EntityBat bat = null;
-    	for(int i = 0; i < numOfBats; i++){
-    		bat = new EntityBat(world);
-    		bat.setPosition(player.posX, player.posY, player.posZ);
-    		world.spawnEntityInWorld(bat);
-    	}
-    }
 	
     /**
      * Causes a player to teleport to where they are looking, limited by a given maximum distance.
@@ -211,7 +202,7 @@ public class Teleportation {
     /***************************************************/
     /**Methods that should only be used by the server.**/
     /***************************************************/
-	
+	@SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player, Vec3 posVec){
     	int sendRadius = 100;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 
@@ -227,6 +218,7 @@ public class Teleportation {
 															player.posX, player.posY, player.posZ, sendRadius));
     }
     
+	@SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player,double x, double y, double z){
     	int sendRadius = 50;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 

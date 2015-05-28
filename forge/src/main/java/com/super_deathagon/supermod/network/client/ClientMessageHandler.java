@@ -7,9 +7,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.super_deathagon.abilities.Teleportation;
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.seras.BlackMagic;
-import com.super_deathagon.util.Teleportation;
 
 public class ClientMessageHandler implements IMessageHandler<AbilityMessage, IMessage>{
 

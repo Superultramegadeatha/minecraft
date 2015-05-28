@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.super_deathagon.abilities.Firebolt;
 import com.super_deathagon.itemspecial.network.server.ServerItemAbilityMessage;
 import com.super_deathagon.itemspecial.util.BlackMagic;
 
@@ -25,7 +26,7 @@ public class ClientMessageHandler implements IMessageHandler<ServerItemAbilityMe
 	private void processMessage(ServerItemAbilityMessage message){		
 		switch (message.getAbility()) {
 		case FIREBOLT: 
-				BlackMagic.spawnFireboltParticles(message.getStartVector(), message.getEndVector(), message.getMagnitude());
+				Firebolt.spawnFireboltParticles(message.getStartVector(), message.getEndVector(), message.getMagnitude());
 			break;
 		default: 
 			System.err.println("Invalid ability type in ClientMessageHandler:" + String.valueOf(message.getAbility()));

@@ -17,6 +17,9 @@ import com.super_deathagon.itemspecial.util.LangString;
 public class ItemSpecial extends Item{
 	EnchantmentAbility ability;
 	int abilityLevel;
+	
+	
+	
     /**
      * allows items to add custom lines of information to the mouseover description
      *  
@@ -26,28 +29,30 @@ public class ItemSpecial extends Item{
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+    	advanced = true;
         if(ability != null){
             if(advanced){
     	        tooltip.add(LangString.enchantmentUsage);
     	        tooltip.add(ability.getTranslatedDescription(abilityLevel));
             }
-        }//else{
-         //  ability = getAbilityFromNBT(stack);
-        //}
+        }
     }
     
    @Override
     public void onCreated(ItemStack stack, World world, EntityPlayer player){
-   	stack.setStackDisplayName("Super's Spear " + Math.random());
-   	//EnchantmentAbility ability = EnchantmentAbility.getRandomAbility(stack, world, player);
-    	EnchantmentAbility enchantment = EnchantmentAbility.getEnchantmentById(64);
-    	System.out.println(enchantment);
-    	if(enchantment != null){
-       	int level = 1 + (int)Math.floor(Math.random()*(enchantment.getMaxLevel() - 1));
-	    	stack.addEnchantment(enchantment, level);
-	    	ability = enchantment;
-	    	abilityLevel = level;
-    	}
+   		stack.setStackDisplayName("Super's Spear " + Math.random());
+   		//EnchantmentAbility ability = EnchantmentAbility.getRandomAbility(stack, world, player);
+   		
+   		if(!world.isRemote){
+   			EnchantmentAbility enchantment = EnchantmentAbility.getEnchantmentById(64);
+   			
+	    	if(enchantment != null){
+	    		int level = 1 + (int)Math.floor(Math.random()*(enchantment.getMaxLevel() - 1));
+		    	stack.addEnchantment(enchantment, level);
+		    	ability = enchantment;
+		    	abilityLevel = level;
+	    	}
+   		}
     }
     
     public void useItemAbility(ItemStack stack, World world, EntityPlayer player, byte weight){

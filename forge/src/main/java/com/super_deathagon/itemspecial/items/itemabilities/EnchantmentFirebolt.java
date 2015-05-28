@@ -5,6 +5,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
+import com.super_deathagon.abilities.Firebolt;
 import com.super_deathagon.itemspecial.network.EnumItemAbility;
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
 import com.super_deathagon.itemspecial.proxy.CommonProxy;
@@ -33,7 +34,7 @@ public class EnchantmentFirebolt extends EnchantmentAbility{
 		//ClientItemAbilityMessage msg = new ClientItemAbilityMessage(EnumItemAbility.FIREBOLT, weight);
 		//CommonProxy.network.sendToServer(msg);
 		if(!player.worldObj.isRemote){
-			BlackMagic.firebolt(player, magnitude);
+			Firebolt.firebolt(player, magnitude);
 		}
 	}
 	

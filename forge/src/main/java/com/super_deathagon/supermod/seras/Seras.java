@@ -16,11 +16,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 
+import com.super_deathagon.abilities.Teleportation;
 import com.super_deathagon.supermod.SuperMod;
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.proxy.CommonProxy;
 import com.super_deathagon.util.EntityAttributeModifier;
-import com.super_deathagon.util.Teleportation;
 
 
 //Shift+tele to go through walls, floors, ceilings
@@ -84,7 +84,7 @@ public class Seras {
 																	AbilityMessage.Ability.ARROW);
 						CommonProxy.simpleNetworkWrapper.sendToServer(amts);
 						try{
-							Thread.sleep(1);
+							Thread.sleep(20);
 						}catch(InterruptedException e){
 							
 						}

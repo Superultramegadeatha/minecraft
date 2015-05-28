@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.seras.BlackMagic;
+import com.super_deathagon.util.Teleportation;
 
 public class ServerMessageHandler implements IMessageHandler<AbilityMessage, IMessage>{
 
@@ -57,7 +58,7 @@ public class ServerMessageHandler implements IMessageHandler<AbilityMessage, IMe
 			break;
 		case TELEPORT: 
 			double [] coords = message.getCoordinates();
-			BlackMagic.instantTransmission(sendingPlayer.worldObj.getPlayerEntityByUUID(message.getSendingPlayerUUID()), 
+			Teleportation.instantTransmission(sendingPlayer.worldObj.getPlayerEntityByUUID(message.getSendingPlayerUUID()), 
 											message.getCoordinates()[0], message.getCoordinates()[1], message.getCoordinates()[2]);
 			break;
 		case FAMILIARS: 

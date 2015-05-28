@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
+import com.super_deathagon.util.MouseOverHelper;
+
 
 
 @SideOnly(Side.CLIENT)
@@ -48,7 +50,7 @@ public class SerasGui extends GuiIngame{
 
 	public void renderCrosshairs(RenderGameOverlayEvent.Pre event) {
 		EntityPlayer player = this.mc.thePlayer;
-		EntityLivingBase e = BlackMagic.getMouseOverEntityLiving(player, Seras.teleportDistance);
+		EntityLivingBase e = MouseOverHelper.getMouseOverEntityLiving(player, Seras.teleportDistance);
 		if(e != null){
 			event.setCanceled(true);
 			this.func_175179_f().drawString(e.getHealth() + "/" + e.getMaxHealth(), 

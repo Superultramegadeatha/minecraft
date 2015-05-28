@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.seras.BlackMagic;
+import com.super_deathagon.util.Teleportation;
 
 public class ClientMessageHandler implements IMessageHandler<AbilityMessage, IMessage>{
 
@@ -29,7 +30,7 @@ public class ClientMessageHandler implements IMessageHandler<AbilityMessage, IMe
 		
 		switch (message.getAbility()) {
 		case TELEPORT: 
-			BlackMagic.spawnTeleportParticlesHelix(sendingPlayer);
+			Teleportation.spawnTeleportParticlesHelix(sendingPlayer);
 			break;
 		default: 
 			System.err.println("Invalid ability type in ClientMessageHandler:" + String.valueOf(message.getAbility()));

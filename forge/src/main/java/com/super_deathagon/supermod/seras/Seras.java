@@ -19,6 +19,8 @@ import org.lwjgl.input.Keyboard;
 import com.super_deathagon.supermod.SuperMod;
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.proxy.CommonProxy;
+import com.super_deathagon.util.EntityAttributeModifier;
+import com.super_deathagon.util.Teleportation;
 
 
 //Shift+tele to go through walls, floors, ceilings
@@ -46,9 +48,9 @@ public class Seras {
 	@SideOnly(Side.CLIENT)
 	private static void initKeyBindings(){
 		abilityKeys = new KeyBinding[3];
-		abilityKeys[0] = new KeyBinding("key.abilityR.desc", Keyboard.KEY_R, "key.ability.category");
-		abilityKeys[1] = new KeyBinding("key.abilityF.desc", Keyboard.KEY_F, "key.ability.category");
-		abilityKeys[2] = new KeyBinding("key.abilityC.desc", Keyboard.KEY_C, "key.ability.category");
+		abilityKeys[0] = new KeyBinding("key.R.desc", Keyboard.KEY_R, "key.ability.catagory");
+		abilityKeys[1] = new KeyBinding("key.F.desc", Keyboard.KEY_F, "key.ability.catagory");
+		abilityKeys[2] = new KeyBinding("key.C.desc", Keyboard.KEY_C, "key.ability.catagory");
 		for(KeyBinding kb : abilityKeys){
 			ClientRegistry.registerKeyBinding(kb);
 		}
@@ -94,9 +96,9 @@ public class Seras {
 		if(abilityKeys[1].isKeyDown()){
 			System.out.println("Client: sending teleport message to server.");
 			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-				BlackMagic.teleportThroughBlock(Minecraft.getMinecraft().thePlayer, teleportDistance);	
+				Teleportation.teleportThroughBlock(Minecraft.getMinecraft().thePlayer, teleportDistance);	
 			}else{	
-				BlackMagic.teleportToLook(Minecraft.getMinecraft().thePlayer, teleportDistance);
+				Teleportation.teleportToLook(Minecraft.getMinecraft().thePlayer, teleportDistance);
 			}
 		}
 				
@@ -111,7 +113,7 @@ public class Seras {
 		if(player.getFoodStats().getFoodLevel() != 19)
 			player.getFoodStats().setFoodLevel(19);
 		if(player.isSprinting())
-			BlackMagic.moveFast(player, sprintingSpeedBoostModifier);
+			EntityAttributeModifier.modifyMovementSpeed(player, sprintingSpeedBoostModifier);
 	}
 	
 	public static void livingHealEvent(LivingHealEvent event) {
@@ -132,9 +134,7 @@ public class Seras {
 			((EntityLiving)event.target).attackEntityFrom(dSource, healAmount);
 			
 			if(event.entityPlayer.getHealth() == event.entityPlayer.getMaxHealth()){
-				AttributeModifier addMaxHealth = new AttributeModifier("generic.maxHealth", healAmount, 0);
-				event.entityPlayer.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(addMaxHealth);
-				System.out.println("Max health is now "+event.entityPlayer.getMaxHealth() + ".");
+				EntityAttributeModifier.modifyMaxHealth(event.entityPlayer, healAmount);
 			}
 			event.entityPlayer.heal(healAmount);
 		}		

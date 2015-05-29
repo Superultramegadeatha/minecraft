@@ -1,5 +1,6 @@
 package com.super_deathagon.monsters;
 
+import com.super_deathagon.monsters.entity.ai.EntitySuperSpider;
 import com.super_deathagon.monsters.handler.MonstersEventHandler;
 import com.super_deathagon.monsters.proxy.CommonProxy;
 
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 @Mod(modid 	 = 	Monsters.MODID,
 	name 	 = 	Monsters.MODNAME,
@@ -39,6 +41,7 @@ public class Monsters {
 	@EventHandler
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
 		//proxy.fmlLifeCycleEvent(event);
+		EntityRegistry.registerModEntity(EntitySuperSpider.class, "superspider", 64, Monsters.instance, 100, 3, true);
 	}
 	
 	@EventHandler

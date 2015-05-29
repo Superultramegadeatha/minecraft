@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.super_deathagon.monsters.entity.ai.EntitySuperSpider;
 import com.super_deathagon.supermod.network.AbilityMessage;
 import com.super_deathagon.supermod.proxy.CommonProxy;
 import com.super_deathagon.util.EntityAttributeModifier;
@@ -77,19 +79,11 @@ public class BlackMagic{
 		}
 	}
 	
-	/*public static void moveFast(EntityPlayer player, AttributeModifier sprintingSpeedBoostModifier){
-		IAttributeInstance playerSpeedAttribute = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-		if(!playerSpeedAttribute.func_180374_a(sprintingSpeedBoostModifier)){
-			playerSpeedAttribute.applyModifier(sprintingSpeedBoostModifier);
-		}else if(playerSpeedAttribute.func_180374_a(sprintingSpeedBoostModifier)){
-			playerSpeedAttribute.removeModifier(sprintingSpeedBoostModifier);
-		}
-	}*/
-	
 	public static void makeufat(EntityPlayer player){
-		EntityLivingBase e = MouseOverHelper.getMouseOverEntityLiving(player, Seras.teleportDistance);
-		if(e != null){
-			EntityAttributeModifier.modifyMaxHealth(e, 10.0);
-		}
+		Vec3 mouseOver = MouseOverHelper.getMouseOverBlock(player, Seras.teleportDistance).hitVec;
+		//EntitySuperSpider spider = new EntitySuperSpider(player.worldObj);
+		EntitySuperSpider spider = new EntitySuperSpider(player.worldObj);
+		spider.setLocationAndAngles(mouseOver.xCoord, mouseOver.yCoord, mouseOver.zCoord, -player.rotationYaw, -player.rotationPitch);
+		player.worldObj.spawnEntityInWorld(spider);
 	}
 }

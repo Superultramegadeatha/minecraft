@@ -202,7 +202,6 @@ public class Teleportation {
     /***************************************************/
     /**Methods that should only be used by the server.**/
     /***************************************************/
-	@SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player, Vec3 posVec){
     	int sendRadius = 100;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 
@@ -218,7 +217,6 @@ public class Teleportation {
 															player.posX, player.posY, player.posZ, sendRadius));
     }
     
-	@SideOnly(Side.SERVER)
     public static void instantTransmission(EntityPlayer player,double x, double y, double z){
     	int sendRadius = 50;
 		AbilityMessage amts = new AbilityMessage(player.getUniqueID(), 

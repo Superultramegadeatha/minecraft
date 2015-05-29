@@ -16,7 +16,7 @@ import com.super_deathagon.itemspecial.util.LangString;
 
 public class ItemSpecial extends Item{
 	
-	public void init(ItemStack stack){
+	public void enchant(ItemStack stack){
 		String name = "Super's Spear " + Math.random();
 
 		EnchantmentAbility ability = EnchantmentAbility.getEnchantmentById(64);

@@ -28,9 +28,9 @@ public class CommonProxy{
     public static ItemSpecialSpear srh;
     
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
+		EnchantmentAbility.init();
 		registerNetworkWrapper(event);
 		registerItems();
-		EnchantmentAbility.init();
 	}
 	
 	public void fmlLifeCycleEvent(FMLInitializationEvent event){}

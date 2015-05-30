@@ -2,9 +2,12 @@ package com.super_deathagon.itemspecial.items;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -14,16 +17,24 @@ import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
 import com.super_deathagon.itemspecial.util.LangString;
 
 
-public class ItemSpecial extends Item{
-	
+public class ItemSpecialMeele extends ItemSword{
+
+	public ItemSpecialMeele(ToolMaterial material) {
+		super(material);
+        this.maxStackSize = 1;        
+        this.setCreativeTab(CreativeTabs.tabCombat);
+	}
+
 	public void enchant(ItemStack stack){
 		String name = "Super's Spear " + Math.random();
 
 		EnchantmentAbility ability = EnchantmentAbility.getEnchantmentById(64);
-		int level = 1 + (int)Math.floor(Math.random()*(ability.getMaxLevel() - 1));
-
+		int level = 1 + itemRand.nextInt(ability.getMaxLevel() - 1);
    		stack.setStackDisplayName(name);
    		stack.addEnchantment(ability, level);
+		Enchantment sharpness = Enchantment.getEnchantmentById(16);
+   		level = 1 + itemRand.nextInt(sharpness.getMaxLevel() - 1);
+   		stack.addEnchantment(sharpness, level);
 	}
 	
     /**
@@ -38,7 +49,7 @@ public class ItemSpecial extends Item{
     	tooltip.add(LangString.enchantmentUsage);
     }
     
-    public void useItemAbility(ItemStack stack, World world, EntityPlayer player, byte weight){
+    public void useItemAbility(ItemStack stack, World world, EntityPlayer player, int charge){
     	if (stack == null){
             return;
         }else{
@@ -52,7 +63,7 @@ public class ItemSpecial extends Item{
                     short level = nbttaglist.getCompoundTagAt(j).getShort("lvl");
                     EnchantmentAbility enchantment = EnchantmentAbility.getEnchantmentById(id);
                     if (enchantment != null){
-                    	enchantment.useAbility(player, (byte)(1.0*weight/enchantment.getMaxLevel()*level));
+                    	enchantment.useAbility(player.worldObj, player, level, charge);
                     }
                 }
             }

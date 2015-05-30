@@ -23,6 +23,10 @@ public class EntityAttributeModifier {
 		return e.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 	}
 	
+	public static void setFollowRange(EntityLivingBase e, double amount){
+		e.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(amount);;
+	}
+	
 	public static void modifyMovementSpeed(EntityLivingBase e, AttributeModifier sprintMod){
 		IAttributeInstance speedAttribute = e.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 		if(!speedAttribute.func_180374_a(sprintMod)){

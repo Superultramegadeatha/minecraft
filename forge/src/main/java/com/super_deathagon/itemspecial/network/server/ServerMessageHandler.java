@@ -8,8 +8,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
-import com.super_deathagon.itemspecial.util.BlackMagic;
-import com.super_deathagon.itemspecial.util.Util;
 
 
 public class ServerMessageHandler implements IMessageHandler<ClientItemAbilityMessage, IMessage>{

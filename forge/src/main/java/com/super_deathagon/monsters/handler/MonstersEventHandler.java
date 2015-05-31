@@ -31,7 +31,7 @@ public class MonstersEventHandler {
 		Entity e = event.entity;
 		if(e != null && (e instanceof EntityLivingBase) && !(e instanceof EntityPlayer)){
 			modifyMonsterAttributes((EntityLivingBase)e);
-			printEntityLivingInfo((EntityLivingBase)e);
+			//printEntityLivingInfo((EntityLivingBase)e);
 		}
 	}
 	

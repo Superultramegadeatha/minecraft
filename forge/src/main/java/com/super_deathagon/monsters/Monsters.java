@@ -1,22 +1,18 @@
 package com.super_deathagon.monsters;
 
-import com.super_deathagon.monsters.entity.ai.EntitySuperSpider;
-import com.super_deathagon.monsters.handler.MonstersEventHandler;
-import com.super_deathagon.monsters.proxy.CommonProxy;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+
+import com.super_deathagon.monsters.entity.EntityPassiveSpider;
+import com.super_deathagon.monsters.handler.MonstersEventHandler;
 
 @Mod(modid 	 = 	Monsters.MODID,
 	name 	 = 	Monsters.MODNAME,
@@ -46,10 +42,10 @@ public class Monsters {
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
 		//proxy.fmlLifeCycleEvent(event);
 		//Entity class, name, id, mod instance, tracking range, time between tracking, velocity updates
-		EntityRegistry.registerModEntity(EntitySuperSpider.class, "superspider", 64, Monsters.instance, 100, 3, true);
+		EntityRegistry.registerModEntity(EntityPassiveSpider.class, "superspider", 64, Monsters.instance, 100, 3, true);
 		for(BiomeGenBase biome: BiomeGenBase.getBiomeGenArray()){
 			if(biome != null){
-				EntityRegistry.addSpawn(EntitySuperSpider.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
+		//		EntityRegistry.addSpawn(EntityPassiveSpider.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
 				biome.setEnableSnow();
 				biome.setTemperatureRainfall(0.0f, 0.0f);
 			}

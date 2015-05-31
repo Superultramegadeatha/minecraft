@@ -1,38 +1,13 @@
 package com.super_deathagon.supermod.seras;
 
-import java.util.List;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.particle.EntitySpellParticleFX;
-import net.minecraft.client.particle.EntitySpellParticleFX.WitchFactory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.super_deathagon.monsters.entity.ai.EntitySuperSpider;
-import com.super_deathagon.supermod.network.AbilityMessage;
-import com.super_deathagon.supermod.proxy.CommonProxy;
-import com.super_deathagon.util.EntityAttributeModifier;
+import com.super_deathagon.monsters.entity.EntityPassiveSpider;
 import com.super_deathagon.util.MouseOverHelper;
 
 
@@ -82,7 +57,7 @@ public class BlackMagic{
 	public static void makeufat(EntityPlayer player){
 		Vec3 mouseOver = MouseOverHelper.getMouseOverBlock(player, Seras.teleportDistance).hitVec;
 		//EntitySuperSpider spider = new EntitySuperSpider(player.worldObj);
-		EntitySuperSpider spider = new EntitySuperSpider(player.worldObj);
+		EntityPassiveSpider spider = new EntityPassiveSpider(player.worldObj);
 		spider.setLocationAndAngles(mouseOver.xCoord, mouseOver.yCoord, mouseOver.zCoord, -player.rotationYaw, -player.rotationPitch);
 		player.worldObj.spawnEntityInWorld(spider);
 	}

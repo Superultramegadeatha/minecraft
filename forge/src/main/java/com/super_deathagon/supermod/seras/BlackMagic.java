@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.Vec3;
 
-import com.super_deathagon.monsters.entity.EntityPassiveSpider;
+import com.super_deathagon.monsters.entity.EntityHiveSpider2;
 import com.super_deathagon.util.MouseOverHelper;
 
 
@@ -57,7 +57,7 @@ public class BlackMagic{
 	public static void makeufat(EntityPlayer player){
 		Vec3 mouseOver = MouseOverHelper.getMouseOverBlock(player, Seras.teleportDistance).hitVec;
 		//EntitySuperSpider spider = new EntitySuperSpider(player.worldObj);
-		EntityPassiveSpider spider = new EntityPassiveSpider(player.worldObj);
+		EntityHiveSpider2 spider = new EntityHiveSpider2(player.worldObj);
 		spider.setLocationAndAngles(mouseOver.xCoord, mouseOver.yCoord, mouseOver.zCoord, -player.rotationYaw, -player.rotationPitch);
 		player.worldObj.spawnEntityInWorld(spider);
 	}

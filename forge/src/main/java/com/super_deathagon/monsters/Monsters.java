@@ -1,6 +1,5 @@
 package com.super_deathagon.monsters;
 
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -11,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-import com.super_deathagon.monsters.entity.EntityPassiveSpider;
+import com.super_deathagon.monsters.entity.EntityHiveSpider2;
 import com.super_deathagon.monsters.handler.MonstersEventHandler;
 
 @Mod(modid 	 = 	Monsters.MODID,
@@ -42,10 +41,10 @@ public class Monsters {
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
 		//proxy.fmlLifeCycleEvent(event);
 		//Entity class, name, id, mod instance, tracking range, time between tracking, velocity updates
-		EntityRegistry.registerModEntity(EntityPassiveSpider.class, "superspider", 64, Monsters.instance, 100, 3, true);
+		EntityRegistry.registerModEntity(EntityHiveSpider2.class, "superspider", 64, Monsters.instance, 100, 3, true);
 		for(BiomeGenBase biome: BiomeGenBase.getBiomeGenArray()){
 			if(biome != null){
-		//		EntityRegistry.addSpawn(EntityPassiveSpider.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
+			//	EntityRegistry.addSpawn(EntityHiveSpider2.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
 				biome.setEnableSnow();
 				biome.setTemperatureRainfall(0.0f, 0.0f);
 			}

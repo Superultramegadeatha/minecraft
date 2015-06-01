@@ -64,7 +64,7 @@ public class ItemSpecial extends Item{
                     short level = nbttaglist.getCompoundTagAt(j).getShort("lvl");
                     EnchantmentAbility enchantment = EnchantmentAbility.getEnchantmentById(id);
                     if (enchantment != null){
-                    	enchantment.useAbility(player, (byte)(1.0*weight/enchantment.getMaxLevel()*level));
+                    	enchantment.useAbility(player.worldObj, player, level, weight);
                     }
                 }
             }

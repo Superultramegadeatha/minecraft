@@ -2,7 +2,7 @@ package com.super_deathagon.itemspecial.proxy;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -12,10 +12,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.super_deathagon.itemspecial.items.ItemSpecial;
 import com.super_deathagon.itemspecial.items.ItemSpecialSpear;
 import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
-import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentFirebolt;
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
 import com.super_deathagon.itemspecial.network.client.ClientMessageHandler;
 import com.super_deathagon.itemspecial.network.server.ServerItemAbilityMessage;
@@ -25,12 +23,12 @@ import com.super_deathagon.itemspecial.network.server.ServerMessageHandler;
 
 public class CommonProxy{
 	public static SimpleNetworkWrapper network;
-    public static ItemSpecialSpear srh;
+    public static ItemSpecialSpear spear;
     
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
+		EnchantmentAbility.init();
 		registerNetworkWrapper(event);
 		registerItems();
-		EnchantmentAbility.init();
 	}
 	
 	public void fmlLifeCycleEvent(FMLInitializationEvent event){}
@@ -38,9 +36,9 @@ public class CommonProxy{
 	public void fmlLifeCycleEvent(FMLServerStartedEvent event){}
 	
 	public void registerItems(){
-        srh = (ItemSpecialSpear)(new ItemSpecialSpear().setUnlocalizedName("itemspecialspear"));
-        GameRegistry.registerItem(srh, "itemspecialspear");
-		GameRegistry.addRecipe(new ItemStack(srh), new Object[]{
+        spear = (ItemSpecialSpear)(new ItemSpecialSpear().setUnlocalizedName("itemspecialspear"));
+        GameRegistry.registerItem(spear, "itemspecialspear");
+		GameRegistry.addRecipe(new ItemStack(spear), new Object[]{
 		     "   ",
 		     " A ",
 		     "   ", 

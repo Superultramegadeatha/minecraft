@@ -5,6 +5,7 @@
  R4wk, ZeuX, IngisKahn, bspkrs
  MCP Data version : snapshot_20141130
 ****************************
+<<<<<<< HEAD
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
@@ -31,7 +32,14 @@ Note: Recompile with -Xlint:unchecked for details.
 :assemble
 :check UP-TO-DATE
 :build
+=======
+:clean
+>>>>>>> refs/heads/Monsters
 
 BUILD SUCCESSFUL
 
+<<<<<<< HEAD
 Total time: 14.267 secs
+=======
+Total time: 47.241 secs
+>>>>>>> refs/heads/Monsters

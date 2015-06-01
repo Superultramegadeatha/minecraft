@@ -29,6 +29,7 @@ public class EntityHiveSpider2 extends EntitySpider{
 		 this.tasks.taskEntries.remove(4);//attack golem
 		 this.tasks.taskEntries.remove(3);//attack player
 		 this.tasks.taskEntries.remove(2);//leap
+		 this.tasks.taskEntries.remove(1);//avoid exploding creeper
 		 this.targetTasks.taskEntries.remove(2);//target golem
 		 this.targetTasks.taskEntries.remove(1);//target player
 		 //this.tasks.addTask(2,new EntityHiveSpider2.AIAvoidPlayer());

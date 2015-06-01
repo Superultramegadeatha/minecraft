@@ -89,8 +89,6 @@ public class EntityAIHiveTarget extends EntityAIHive{
             return false;
         }else if (!target.isEntityAlive()){
             return false;
-        }else if(this.taskOwner.getDistanceToEntity(target) > 15.0){
-    			return moveCloserTo(target);
         }else{
             Team team = this.taskOwner.getTeam();
             Team team1 = target.getTeam();
@@ -130,19 +128,26 @@ public class EntityAIHiveTarget extends EntityAIHive{
 	    		this.taskOwner.setAttackTarget(mainTarget);	    	
 	    	}
     	}
+    	updatePosition();
     }
     
-    public boolean moveCloserTo(EntityLivingBase target){
-    	Vec3 targetVec = target.getPositionVector();
-    	
-    	//double yaw = target.rotationYawHead;
-    	//double x = target.posX - Math.sin( (yaw*Math.PI)/180.0 )*5.0;
-    	//double z = target.posZ + Math.cos( (yaw*Math.PI)/180.0 )*5.0;
-    	double rand = Math.PI* this.taskOwner.getRNG().nextGaussian();
-    	double x = target.posX - Math.sin( rand )*10.0;
-    	double z = target.posZ + Math.cos( rand )*10.0;
+    public void updatePosition(){
+    	if(this.taskOwner.getNavigator().noPath()){
 
-    	return this.taskOwner.getNavigator().tryMoveToXYZ(x, this.taskOwner.posY, z, 1.5);
+	    	EntityLivingBase target = this.taskOwner.getAttackTarget();
+	    	double distance = this.taskOwner.getDistanceToEntity(target);
+	    	if(distance > 17.0 || distance < 13.0){
+		    	Vec3 targetVec = target.getPositionVector();
+		    	//double yaw = target.rotationYawHead;
+		    	//double x = target.posX - Math.sin( (yaw*Math.PI)/180.0 )*5.0;
+		    	//double z = target.posZ + Math.cos( (yaw*Math.PI)/180.0 )*5.0;
+		    	double rand = Math.PI* this.taskOwner.getRNG().nextGaussian();
+		    	double x = target.posX - Math.sin( rand )*15.0;
+		    	double z = target.posZ + Math.cos( rand )*15.0;
+		
+		    	this.taskOwner.getNavigator().tryMoveToXYZ(x, this.taskOwner.posY, z, 1.5);
+	    	}
+    	}
     }
     
     /**

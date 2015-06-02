@@ -18,8 +18,11 @@ public class ClientProxy extends CommonProxy{
 	public void fmlLifeCycleEvent(FMLInitializationEvent event){
 		super.fmlLifeCycleEvent(event);
 		 // required in order for the renderer to know how to render your item.  Likely to change in the near future.
-	    ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(SpecialItems.MODID + ":itemspecialspear", "inventory");
+	    ModelResourceLocation spearResource = new ModelResourceLocation(SpecialItems.MODID + ":itemspecialspear", "inventory");
+	    ModelResourceLocation bastardSwordResource = new ModelResourceLocation(SpecialItems.MODID + ":itemspecialbastardsword", "inventory");
+
 	    final int DEFAULT_ITEM_SUBTYPE = 0;
-	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.spear, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.spear, DEFAULT_ITEM_SUBTYPE, spearResource);
+	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.bastardSword, DEFAULT_ITEM_SUBTYPE, bastardSwordResource);
 	}
 }

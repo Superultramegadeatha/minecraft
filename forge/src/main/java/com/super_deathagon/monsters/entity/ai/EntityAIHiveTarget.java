@@ -124,8 +124,8 @@ public class EntityAIHiveTarget extends EntityAIHive{
     	if(!targets.isEmpty()){
     		EntityLivingBase mainTarget = getPopularTarget(targets);
     		
-	    	if(!mainTarget.isDead){
-	    		this.taskOwner.setAttackTarget(mainTarget);	    	
+	    	if(mainTarget != null && !mainTarget.isDead){
+	    		this.taskOwner.setAttackTarget(mainTarget);
 	    	}
     	}
     	updatePosition();
@@ -133,19 +133,20 @@ public class EntityAIHiveTarget extends EntityAIHive{
     
     public void updatePosition(){
     	if(this.taskOwner.getNavigator().noPath()){
-
 	    	EntityLivingBase target = this.taskOwner.getAttackTarget();
-	    	double distance = this.taskOwner.getDistanceToEntity(target);
-	    	if(distance > 17.0 || distance < 13.0){
-		    	Vec3 targetVec = target.getPositionVector();
-		    	//double yaw = target.rotationYawHead;
-		    	//double x = target.posX - Math.sin( (yaw*Math.PI)/180.0 )*5.0;
-		    	//double z = target.posZ + Math.cos( (yaw*Math.PI)/180.0 )*5.0;
-		    	double rand = Math.PI* this.taskOwner.getRNG().nextGaussian();
-		    	double x = target.posX - Math.sin( rand )*15.0;
-		    	double z = target.posZ + Math.cos( rand )*15.0;
-		
-		    	this.taskOwner.getNavigator().tryMoveToXYZ(x, this.taskOwner.posY, z, 1.5);
+	    	if(target != null){
+		    	double distance = this.taskOwner.getDistanceToEntity(target);
+		    	if(distance > 17.0 || distance < 13.0){
+			    	Vec3 targetVec = target.getPositionVector();
+			    	//double yaw = target.rotationYawHead;
+			    	//double x = target.posX - Math.sin( (yaw*Math.PI)/180.0 )*5.0;
+			    	//double z = target.posZ + Math.cos( (yaw*Math.PI)/180.0 )*5.0;
+			    	double rand = Math.PI* this.taskOwner.getRNG().nextGaussian();
+			    	double x = target.posX - Math.sin( rand )*15.0;
+			    	double z = target.posZ + Math.cos( rand )*15.0;
+			
+			    	this.taskOwner.getNavigator().tryMoveToXYZ(x, this.taskOwner.posY, z, 1.5);
+		    	}
 	    	}
     	}
     }
@@ -158,21 +159,25 @@ public class EntityAIHiveTarget extends EntityAIHive{
     }
     
     public EntityLivingBase getPopularTarget(List<EntityLivingBase> targets){
-    	EntityLivingBase best = targets.get(0);
-    	int count = 0;
-    	int bestCount = 0;
-    	for(EntityLivingBase t:targets){
-    		for(EntityLivingBase r:targets){
-    			if(t == r){
-    				count++;
-    			}
-    		}
-    		if(count > bestCount){
-    			best = t;
-    			bestCount = count;
-    		}
+    	EntityLivingBase best = this.taskOwner.getAttackTarget();
+    	if(!targets.isEmpty()) {  	
+	    	if(best == null)
+	    		best = targets.get(0);
+	    	
+	    	int count = 0;
+	    	int bestCount = 0;
+	    	for(EntityLivingBase t:targets){
+	    		for(EntityLivingBase r:targets){
+	    			if(t == r){
+	    				count++;
+	    			}
+	    		}
+	    		if(count > bestCount){
+	    			best = t;
+	    			bestCount = count;
+	    		}
+	    	}
     	}
-    	
     	return best;
     }
     

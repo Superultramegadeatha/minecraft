@@ -1,5 +1,9 @@
 package com.super_deathagon.monsters.entity.ai;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,9 +16,13 @@ import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+
 import org.apache.commons.lang3.StringUtils;
 
-public abstract class EntityAIHiveTarget extends EntityAIHive{
+import com.google.common.base.Predicates;
+
+public class EntityAIHiveTarget2 extends EntityAIHive{
     /** If true, EntityAI targets must be able to be seen (cannot be blocked by walls) to be suitable targets. */
     protected boolean shouldCheckSight;
     /** When true, only entities that can be reached with minimal effort will be targetted. */
@@ -27,9 +35,14 @@ public abstract class EntityAIHiveTarget extends EntityAIHive{
      * If  @shouldCheckSight is true, the number of ticks before the interuption of this AITastk when the entity does't
      * see the target
      */
-    protected int targetUnseenTicks;
-
-    public EntityAIHiveTarget(EntityCreature creature, double area, boolean checkSight){
+    private int targetUnseenTicks;
+    /**
+     * Nearby only is set to false.
+     * @param creature the owner of this EntityAI
+     * @param area the area to search for other creatures
+     * @param checkSight only target what the creature can see
+     */
+    public EntityAIHiveTarget2(EntityCreature creature, double area, boolean checkSight){
         this(creature, area, checkSight, false);
     }
 
@@ -40,46 +53,10 @@ public abstract class EntityAIHiveTarget extends EntityAIHive{
      * @param checkSight only target what the creature can see
      * @param nearOnly only target nearby entities(less than a few blocks away)
      */
-    public EntityAIHiveTarget(EntityCreature creature, double area, boolean checkSight, boolean nearOnly){
+    public EntityAIHiveTarget2(EntityCreature creature, double area, boolean checkSight, boolean nearOnly){
     	super(creature, area);
         this.shouldCheckSight = checkSight;
         this.nearbyOnly = nearOnly;
-    }
-    
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean continueExecuting(){
-        EntityLivingBase entitylivingbase = this.taskOwner.getAttackTarget();
-
-        if (entitylivingbase == null){
-            return false;
-        }else if (!entitylivingbase.isEntityAlive()){
-            return false;
-        }else{
-            Team team = this.taskOwner.getTeam();
-            Team team1 = entitylivingbase.getTeam();
-
-            if (team != null && team1 == team){
-                return false;
-            }else{
-                double d0 = this.getTargetDistance();
-
-                if (this.taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0){
-                    return false;
-                }else{
-                    if (this.shouldCheckSight){
-                        if (this.taskOwner.getEntitySenses().canSee(entitylivingbase)){
-                            this.targetUnseenTicks = 0;
-                        }else if (++this.targetUnseenTicks > 60){
-                            return false;
-                        }
-                    }
-
-                    return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer)entitylivingbase).capabilities.disableDamage;
-                }
-            }
-        }
     }
 
     protected double getTargetDistance(){
@@ -94,24 +71,136 @@ public abstract class EntityAIHiveTarget extends EntityAIHive{
         this.targetSearchStatus = 0;
         this.targetSearchDelay = 0;
         this.targetUnseenTicks = 0;
-    }
+        
+        double d0 = this.getTargetDistance();
+        List list = this.taskOwner.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.taskOwner.getEntityBoundingBox().expand(d0, d0, d0), Predicates.and(IEntitySelector.NOT_SPECTATING));
 
+        if (!list.isEmpty()){
+            EntityLivingBase targetEntity = (EntityLivingBase)list.get(0);
+            this.taskOwner.setAttackTarget(targetEntity);
+            System.out.println(this.taskOwner.getEntityId() + " started tracking " + this.taskOwner.getAttackTarget().getName());
+        }
+    }
+    
+    public boolean continueExecuting(){
+        EntityLivingBase target = this.taskOwner.getAttackTarget();
+
+        if (target == null){
+            return false;
+        }else if (!target.isEntityAlive()){
+            return false;
+        }else{
+            Team team = this.taskOwner.getTeam();
+            Team team1 = target.getTeam();
+
+            if (team != null && team1 == team){
+                return false;
+            }else{
+                double d0 = this.getTargetDistance();
+
+                if (this.taskOwner.getDistanceSqToEntity(target) > d0 * d0){
+                    return false;
+                }else{
+                    if (this.shouldCheckSight){
+                        if (this.taskOwner.getEntitySenses().canSee(target)){
+                            this.targetUnseenTicks = 0;
+                        }else if (++this.targetUnseenTicks > 60){
+                            return false;
+                        }
+                    }
+
+                    return !(target instanceof EntityPlayer) || !((EntityPlayer)target).capabilities.disableDamage;
+                }
+            }
+        }
+    }
+ 
+    @Override
+    public void updateTask(){
+    	super.updateTask();
+    	
+    	List<EntityLivingBase> targets = getTargets();
+    	
+    	if(!targets.isEmpty()){
+    		EntityLivingBase mainTarget = getPopularTarget(targets);
+    		
+	    	if(!mainTarget.isDead){
+	    		this.taskOwner.setAttackTarget(mainTarget);	    	
+	    	}
+    	}
+    	updatePosition();
+    }
+    
+    public void updatePosition(){
+    	if(this.taskOwner.getNavigator().noPath()){
+
+	    	EntityLivingBase target = this.taskOwner.getAttackTarget();
+	    	double distance = this.taskOwner.getDistanceToEntity(target);
+	    	if(distance > 17.0 || distance < 13.0){
+		    	Vec3 targetVec = target.getPositionVector();
+		    	//double yaw = target.rotationYawHead;
+		    	//double x = target.posX - Math.sin( (yaw*Math.PI)/180.0 )*5.0;
+		    	//double z = target.posZ + Math.cos( (yaw*Math.PI)/180.0 )*5.0;
+		    	double rand = Math.PI* this.taskOwner.getRNG().nextGaussian();
+		    	double x = target.posX - Math.sin( rand )*15.0;
+		    	double z = target.posZ + Math.cos( rand )*15.0;
+		
+		    	this.taskOwner.getNavigator().tryMoveToXYZ(x, this.taskOwner.posY, z, 1.5);
+	    	}
+    	}
+    }
+    
     /**
      * Resets the task
      */
     public void resetTask(){
-    	System.out.println(this.taskOwner + " target lost.");
-        this.taskOwner.setAttackTarget((EntityLivingBase)null);
+    	this.taskOwner.setAttackTarget((EntityLivingBase)null);
+    }
+    
+    public EntityLivingBase getPopularTarget(List<EntityLivingBase> targets){
+    	EntityLivingBase best = targets.get(0);
+    	int count = 0;
+    	int bestCount = 0;
+    	for(EntityLivingBase t:targets){
+    		for(EntityLivingBase r:targets){
+    			if(t == r){
+    				count++;
+    			}
+    		}
+    		if(count > bestCount){
+    			best = t;
+    			bestCount = count;
+    		}
+    	}
+    	
+    	return best;
+    }
+    
+    public List<EntityLivingBase> getTargets(){
+    	List<EntityLivingBase> targets = new ArrayList<EntityLivingBase>();
+    	EntityLivingBase target;
+    	double distance;
+    	for(EntityCreature creature: this.hive){
+    		target = creature.getAttackTarget();
+    		if(creature.getAttackTarget() != null){
+    			distance = creature.getDistanceToEntity(target);
+    			targets.add(target);
+    		}
+    	}
+    	return targets;
     }
 
     public static boolean func_179445_a(EntityLiving p_179445_0_, EntityLivingBase p_179445_1_, boolean p_179445_2_, boolean p_179445_3_){
         if (p_179445_1_ == null){
             return false;
-        }else if (p_179445_1_ == p_179445_0_){
+        }
+        else if (p_179445_1_ == p_179445_0_){
             return false;
-        }else if (!p_179445_1_.isEntityAlive()){
+        }
+        else if (!p_179445_1_.isEntityAlive()){
             return false;
-        }else if (!p_179445_0_.canAttackClass(p_179445_1_.getClass())){
+        }
+        else if (!p_179445_0_.canAttackClass(p_179445_1_.getClass())){
             return false;
         }else{
             Team team = p_179445_0_.getTeam();
@@ -168,7 +257,8 @@ public abstract class EntityAIHiveTarget extends EntityAIHive{
     /**
      * Checks to see if this entity can find a short path to the given target.
      */
-    private boolean canEasilyReach(EntityLivingBase p_75295_1_){
+    private boolean canEasilyReach(EntityLivingBase p_75295_1_)
+    {
         this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
         PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(p_75295_1_);
 

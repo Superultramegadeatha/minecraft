@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.Team;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -34,8 +35,7 @@ public class EntityAIHiveNearestAttackableTarget extends EntityAIHiveTarget{
      * @param target the type of entity to target
      * @param checkSight target only what this creature can see
      */
-    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, boolean checkSight)
-    {
+    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, boolean checkSight){
         this(creature, area, target, checkSight, false);
     }
 
@@ -47,8 +47,7 @@ public class EntityAIHiveNearestAttackableTarget extends EntityAIHiveTarget{
      * @param checkSight target only what this creature can see
      * @param nearOnly target only what is near this creature
      */
-    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, boolean checkSight, boolean nearOnly)
-    {
+    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, boolean checkSight, boolean nearOnly){
         this(creature, area, target, 10, checkSight, nearOnly, (Predicate)null);
     }
 
@@ -57,59 +56,48 @@ public class EntityAIHiveNearestAttackableTarget extends EntityAIHiveTarget{
      * @param creature the owner of this AI
      * @param area the area to search for others of the same type of creature
      * @param target the type of entity to target
+     * @param chance greater number, smaller chance (chance > 0 && random.nextInt(chance) != 0)
      * @param checkSight target only what this creature can see
      * @param nearOnly target only what is near this creature
-     * @param p_i45880_6_ the predicate used to specifically define what to target
+     * @param predicate the predicate used to specifically define what to target
      */
-    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, int p_i45880_3_, boolean checkSight, boolean nearOnly, final Predicate p_i45880_6_)
-    {
+    public EntityAIHiveNearestAttackableTarget(EntityCreature creature, double area, Class target, int chance, boolean checkSight, boolean nearOnly, final Predicate predicate){
         super(creature, area, checkSight, nearOnly);
         this.targetClass = target;
-        this.targetChance = p_i45880_3_;
+        this.targetChance = chance;
         this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
         this.setMutexBits(1);
-        this.targetEntitySelector = new Predicate()
-        {
-            public boolean func_179878_a(EntityLivingBase p_179878_1_)
-            {
-                if (p_i45880_6_ != null && !p_i45880_6_.apply(p_179878_1_))
-                {
+        this.targetEntitySelector = new Predicate(){ //ughhh nested functions
+            public boolean func_179878_a(EntityLivingBase target){
+                if (predicate != null && !predicate.apply(target)){
                     return false;
-                }
-                else
-                {
-                    if (p_179878_1_ instanceof EntityPlayer)
-                    {
+                }else{
+                    if (target instanceof EntityPlayer){
                         double d0 = EntityAIHiveNearestAttackableTarget.this.getTargetDistance();
 
-                        if (p_179878_1_.isSneaking())
-                        {
-                            d0 *= 0.800000011920929D;
-                        }
+                        if (target.isSneaking()){
+                            d0 *= 0.800000011920929D; //my followRange becomes 20% smaller?
+                        }							  
 
-                        if (p_179878_1_.isInvisible())
-                        {
-                            float f = ((EntityPlayer)p_179878_1_).getArmorVisibility();
+                        if (target.isInvisible()){
+                            float f = ((EntityPlayer)target).getArmorVisibility();
 
-                            if (f < 0.1F)
-                            {
+                            if (f < 0.1F){
                                 f = 0.1F;
                             }
 
-                            d0 *= (double)(0.7F * f);
+                            d0 *= (double)(0.7F * f); //if armor visibility returns 1 my follow range is reduced by 30%
                         }
 
-                        if ((double)p_179878_1_.getDistanceToEntity(EntityAIHiveNearestAttackableTarget.this.taskOwner) > d0)
-                        {
+                        if ((double)target.getDistanceToEntity(EntityAIHiveNearestAttackableTarget.this.taskOwner) > d0){
                             return false;
                         }
                     }
 
-                    return EntityAIHiveNearestAttackableTarget.this.isSuitableTarget(p_179878_1_, false);
+                    return EntityAIHiveNearestAttackableTarget.this.isSuitableTarget(target, false);
                 }
             }
-            public boolean apply(Object p_apply_1_)
-            {
+            public boolean apply(Object p_apply_1_){
                 return this.func_179878_a((EntityLivingBase)p_apply_1_);
             }
         };
@@ -118,24 +106,19 @@ public class EntityAIHiveNearestAttackableTarget extends EntityAIHiveTarget{
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
-    public boolean shouldExecute()
-    {
-        if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
-        {
+    public boolean shouldExecute(){
+    	System.out.println(this.taskOwner + " searching for targets...");
+    	super.shouldExecute();
+        if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0){
             return false;
-        }
-        else
-        {
+        }else{
             double d0 = this.getTargetDistance();
             List list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, IEntitySelector.NOT_SPECTATING));
             Collections.sort(list, this.theNearestAttackableTargetSorter);
 
-            if (list.isEmpty())
-            {
+            if (list.isEmpty()){
                 return false;
-            }
-            else
-            {
+            }else{
                 this.targetEntity = (EntityLivingBase)list.get(0);
                 return true;
             }
@@ -145,32 +128,48 @@ public class EntityAIHiveNearestAttackableTarget extends EntityAIHiveTarget{
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting()
-    {
+    public void startExecuting(){
+    	System.out.println(this.taskOwner + " target found." + this.targetEntity);
         this.taskOwner.setAttackTarget(this.targetEntity);
         super.startExecuting();
     }
 
-    public static class Sorter implements Comparator
-    {
+    public static class Sorter implements Comparator{
         private final Entity theEntity;
-        private static final String __OBFID = "CL_00001622";
 
-        public Sorter(Entity p_i1662_1_)
-        {
+        public Sorter(Entity p_i1662_1_){
             this.theEntity = p_i1662_1_;
         }
 
-        public int compare(Entity p_compare_1_, Entity p_compare_2_)
-        {
+        public int compare(Entity p_compare_1_, Entity p_compare_2_){
             double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
             double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
             return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
         }
 
-        public int compare(Object p_compare_1_, Object p_compare_2_)
-        {
+        public int compare(Object p_compare_1_, Object p_compare_2_){
             return this.compare((Entity)p_compare_1_, (Entity)p_compare_2_);
         }
+    }
+    
+    private void targetingMode(){
+    	String output = "";
+    	for(EntityCreature hiveCreature: this.hive){
+    		EntityLivingBase hiveTarget = hiveCreature.getAttackTarget();
+    		output += taskOwner + "->" + targetEntity + ":" + " " + hiveCreature + "->" + hiveTarget + "\n";
+    		
+    		if(hiveTarget == null){
+    			if(targetEntity != null){
+    				hiveCreature.setAttackTarget(targetEntity);
+    			}
+    		}else{
+    			if(targetEntity == null){
+    				this.taskOwner.setAttackTarget(hiveTarget);
+    			}
+    		}
+    		
+    		output += this.taskOwner + "->" + targetEntity + ":" + " " + hiveCreature + "->" +  hiveCreature.getAttackTarget() + "\n";
+    	}
+    	System.out.println(output);
     }
 }

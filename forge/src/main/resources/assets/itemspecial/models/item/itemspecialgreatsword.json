@@ -1,13 +1,13 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "itemspecial:items/bastardsword"
+        "layer0": "itemspecial:items/greatsword"
     },
     "display": {
         "thirdperson": {
             "rotation": [ 0, 90, -40 ],
-            "translation": [ 0, 1.5, -8.0 ],
-            "scale": [ 2.0, 2.0, 1.0 ]
+            "translation": [ 0, 1.5, -7.0 ],
+            "scale": [ 1.5, 1.5, 1.0 ]
         },
         "firstperson": {
             "rotation": [ 0, -135, 25 ],

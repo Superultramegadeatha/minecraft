@@ -1,5 +1,6 @@
 #
 <<<<<<< HEAD
+<<<<<<< HEAD
 #Thu May 21 22:54:05 MST 2015
 =======
 <<<<<<< HEAD
@@ -7,6 +8,34 @@
 =======
 #Thu May 21 22:54:05 MST 2015
 >>>>>>> refs/heads/master
+>>>>>>> refs/heads/Firebolt
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+#Wed May 27 01:37:05 MST 2015
+=======
+#Thu May 21 22:54:05 MST 2015
+>>>>>>> refs/heads/master
+=======
+#Thu May 21 22:54:05 MST 2015
+=======
+<<<<<<< HEAD
+#Wed May 27 01:37:05 MST 2015
+=======
+#Thu May 21 22:54:05 MST 2015
+>>>>>>> refs/heads/master
+>>>>>>> refs/heads/Firebolt
+>>>>>>> refs/heads/Monsters
+=======
+#Thu May 21 22:54:05 MST 2015
+=======
+<<<<<<< HEAD
+#Wed May 27 01:37:05 MST 2015
+=======
+#Thu May 21 22:54:05 MST 2015
+>>>>>>> refs/heads/master
+>>>>>>> refs/heads/Firebolt
+>>>>>>> refs/heads/Monsters
 >>>>>>> refs/heads/Firebolt
 org.eclipse.jdt.core.compiler.debug.localVariable=generate
 org.eclipse.jdt.core.compiler.compliance=1.6

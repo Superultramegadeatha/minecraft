@@ -9,7 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
 
-
 public class ServerMessageHandler implements IMessageHandler<ClientItemAbilityMessage, IMessage>{
 
 	 /**

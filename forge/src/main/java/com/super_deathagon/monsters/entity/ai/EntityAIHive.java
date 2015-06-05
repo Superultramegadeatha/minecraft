@@ -3,20 +3,12 @@ package com.super_deathagon.monsters.entity.ai;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-
-import com.google.common.base.Predicate;
-import com.super_deathagon.monsters.entity.EntityHiveSpider;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.world.World;
 
 public class EntityAIHive extends EntityAIBase{
 	protected HashSet<EntityCreature> hive;

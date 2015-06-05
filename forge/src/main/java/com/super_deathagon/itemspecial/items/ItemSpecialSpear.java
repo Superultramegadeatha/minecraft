@@ -5,8 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFlameFX;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,19 +15,16 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Multimap;
-import com.super_deathagon.itemspecial.SpecialItems;
 
 public class ItemSpecialSpear extends ItemSpecialMeele{
 	
-    private float attackDamage;
     
     public ItemSpecialSpear(){
-    	super(ToolMaterial.EMERALD);
+    	super();
         //durability of an item
         this.setMaxDamage(100);
         this.attackDamage = 9.0F;

@@ -1,5 +1,6 @@
 package com.super_deathagon.itemspecial.proxy.client;
 
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

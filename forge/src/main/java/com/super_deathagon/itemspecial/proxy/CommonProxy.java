@@ -17,8 +17,6 @@ import com.super_deathagon.itemspecial.network.client.ClientMessageHandler;
 import com.super_deathagon.itemspecial.network.server.ServerItemAbilityMessage;
 import com.super_deathagon.itemspecial.network.server.ServerMessageHandler;
 
-
-
 public class CommonProxy{
 	public static SimpleNetworkWrapper network;
     public static ItemSpecialSpear spear;

@@ -24,14 +24,12 @@ import com.google.common.collect.Multimap;
 import com.super_deathagon.itemspecial.SpecialItems;
 
 public class ItemSpecialGreatSword extends ItemSpecialMeele{
-	
-    private float attackDamage;
-    
+		
     public ItemSpecialGreatSword(){
-    	super(ToolMaterial.EMERALD);
+    	super();
         //durability of an item
         this.setMaxDamage(100);
-        this.attackDamage = 19.0F;
+        this.attackDamage = 20.0F;
     }
     
     public float getStrVsBlock(ItemStack stack, Block block){
@@ -49,12 +47,12 @@ public class ItemSpecialGreatSword extends ItemSpecialMeele{
     }
 
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker){
-    	if(attacker.getHealth() == attacker.getMaxHealth()){
+    	/*if(attacker.getHealth() == attacker.getMaxHealth()){
 	    	AttributeModifier modify = new AttributeModifier("generic.maxHealth", target.getHealth(), 0);
 	    	attacker.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(modify);
     	}
 	    attacker.setHealth(attacker.getHealth() + target.getHealth());
-	    stack.damageItem(1, attacker);
+	    stack.damageItem(1, attacker);*/
         return true;
     }
 

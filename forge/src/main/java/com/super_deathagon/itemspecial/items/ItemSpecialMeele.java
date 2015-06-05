@@ -17,10 +17,10 @@ import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
 import com.super_deathagon.itemspecial.util.LangString;
 
 
-public class ItemSpecialMeele extends ItemSword{
+public class ItemSpecialMeele extends Item{
+    protected float attackDamage;
 
-	public ItemSpecialMeele(ToolMaterial material) {
-		super(material);
+	public ItemSpecialMeele() {
         this.maxStackSize = 1;        
         this.setCreativeTab(CreativeTabs.tabCombat);
 	}

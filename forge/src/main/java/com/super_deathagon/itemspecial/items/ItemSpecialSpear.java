@@ -25,10 +25,9 @@ import com.super_deathagon.itemspecial.SpecialItems;
 
 public class ItemSpecialSpear extends ItemSpecialMeele{
 	
-    private float attackDamage;
     
     public ItemSpecialSpear(){
-    	super(ToolMaterial.EMERALD);
+    	super();
         //durability of an item
         this.setMaxDamage(100);
         this.attackDamage = 9.0F;

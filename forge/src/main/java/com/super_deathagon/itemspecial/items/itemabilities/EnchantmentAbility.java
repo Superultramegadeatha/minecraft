@@ -5,7 +5,6 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraft.world.World;
 
 import com.super_deathagon.abilities.EnchantmentDetonate;
@@ -26,7 +25,6 @@ public class EnchantmentAbility extends Enchantment implements IAbility{
 	
 	
 	public boolean canApplyTogether(Enchantment ench){
-		System.out.println("whoops");
 		return !(ench instanceof EnchantmentAbility);
 	}
 	
@@ -48,5 +46,4 @@ public class EnchantmentAbility extends Enchantment implements IAbility{
 	}
 
 	public void useAbility(World world, EntityPlayer player, int level, int charge) {}
-	
 }

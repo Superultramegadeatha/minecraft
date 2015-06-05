@@ -51,6 +51,7 @@ public class SerasGui extends GuiIngame{
 	public void renderCrosshairs(RenderGameOverlayEvent.Pre event) {
 		EntityPlayer player = this.mc.thePlayer;
 		EntityLivingBase e = MouseOverHelper.getMouseOverEntityLiving(player, Seras.teleportDistance);
+
 		if(e != null){
 			event.setCanceled(true);
 			this.func_175179_f().drawString(e.getHealth() + "/" + e.getMaxHealth(), 

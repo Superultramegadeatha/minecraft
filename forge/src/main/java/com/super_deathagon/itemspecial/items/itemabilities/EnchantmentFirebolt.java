@@ -115,7 +115,6 @@ public class EnchantmentFirebolt extends EnchantmentAbility implements IAbility{
 		
 		int power = (int) (charge/maxCharge * Math.pow(level/maxLevel, 2) * maxPower);
 		int reach = (int) (charge/maxCharge * level/maxLevel * maxReach);
-		System.out.println("Firebolt=" + power + ":" + reach);
         MovingObjectPosition mop = null;
         double right = 0.5;
 		Vec3 mouseOverVec = MouseOverHelper.getMouseOverAll(player, charge).hitVec;

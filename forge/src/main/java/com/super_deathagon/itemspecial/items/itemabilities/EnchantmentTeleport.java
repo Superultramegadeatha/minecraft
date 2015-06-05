@@ -1,9 +1,11 @@
-package com.super_deathagon.abilities;
+package com.super_deathagon.itemspecial.items.itemabilities;
 
 import java.util.List;
 
-import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
-import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentFirebolt;
+import org.lwjgl.input.Keyboard;
+
+import com.super_deathagon.abilities.IAbility;
+import com.super_deathagon.abilities.Teleportation;
 import com.super_deathagon.itemspecial.network.EnumItemAbility;
 import com.super_deathagon.itemspecial.network.server.ServerItemAbilityMessage;
 import com.super_deathagon.itemspecial.proxy.CommonProxy;
@@ -36,13 +38,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EnchantmentDetonate extends EnchantmentAbility implements IAbility{
-	private static final float maxLevel = 5;
+public class EnchantmentTeleport extends EnchantmentAbility implements IAbility{
+	private static final float maxLevel = 2;
 	private static final float maxCharge = maxLevel * 20;
-	private static final float maxPower = 20;
 	private static final int maxReach = 50;
 	
-	public EnchantmentDetonate(int enchID, ResourceLocation enchName, int enchWeight) {
+	public EnchantmentTeleport(int enchID, ResourceLocation enchName, int enchWeight) {
 		super(enchID, enchName, enchWeight, EnumEnchantmentType.WEAPON);
 		this.name = "detonate";
 	}
@@ -64,14 +65,19 @@ public class EnchantmentDetonate extends EnchantmentAbility implements IAbility{
 		
 		if(charge > maxCharge)
 			charge = (int) maxCharge;
-		else if(charge <= 0)
+		else if(charge <= 10)
 			return;
 		
-		float power = (float) (charge/maxCharge * Math.pow(level/maxLevel, 2) * maxPower);
 		float reach = charge/maxCharge * level/maxLevel * maxReach + 5;
-		System.out.println("Firebolt=" + power + ":" + reach);
 		Vec3 mouseOverVec = MouseOverHelper.getMouseOverAll(player, reach).hitVec;
 
-		world.createExplosion(player, mouseOverVec.xCoord, mouseOverVec.yCoord, mouseOverVec.zCoord, power, true);	
+		if(player.worldObj.isRemote){
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+				Teleportation.teleportThroughBlock(player, reach);	
+			}else{	
+				Teleportation.teleportToLook(player, reach);
+			}
+		}
  	}
 }
+

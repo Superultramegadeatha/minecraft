@@ -93,7 +93,6 @@ public class Seras {
 		}
 		
 		if(abilityKeys[1].isKeyDown()){
-			System.out.println("Client: sending teleport message to server.");
 			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 				Teleportation.teleportThroughBlock(Minecraft.getMinecraft().thePlayer, teleportDistance);	
 			}else{	

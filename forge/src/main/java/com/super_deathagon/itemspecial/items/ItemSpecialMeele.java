@@ -31,9 +31,9 @@ public class ItemSpecialMeele extends Item{
 		int level = 1 + itemRand.nextInt(ability.getMaxLevel() - 1);
    		stack.setStackDisplayName(name);
    		stack.addEnchantment(ability, level);
-		Enchantment sharpness = Enchantment.getEnchantmentById(16);
-   		level = 1 + itemRand.nextInt(sharpness.getMaxLevel() - 1);
-   		stack.addEnchantment(sharpness, level);
+   		//Enchantment sharpness = Enchantment.getEnchantmentById(16);
+   		//level = 1 + itemRand.nextInt(sharpness.getMaxLevel() - 1);
+   		//stack.addEnchantment(sharpness, level);
 	}
 	
     /**

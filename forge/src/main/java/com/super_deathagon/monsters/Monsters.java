@@ -1,5 +1,6 @@
 package com.super_deathagon.monsters;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -20,7 +21,7 @@ public class Monsters {
 
 	public static final String MODID = "monsters";
 	public static final String MODNAME = "Super's Monsters";
-	public static final String MODVERSION = "0.0.1";
+	public static final String MODVERSION = "0.0.4";
 
 	//@SidedProxy(clientSide="com.super_deathagon.monsters.proxy.client.ClientProxy", 
 	//			serverSide="com.super_deathagon.monsters.proxy.server.ServerProxy")
@@ -44,7 +45,7 @@ public class Monsters {
 		EntityRegistry.registerModEntity(EntityHiveSpider2.class, "superspider", 64, Monsters.instance, 100, 3, true);
 		for(BiomeGenBase biome: BiomeGenBase.getBiomeGenArray()){
 			if(biome != null){
-			//	EntityRegistry.addSpawn(EntityHiveSpider2.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
+				EntityRegistry.addSpawn(EntityHiveSpider2.class, 4000, 1, 8, EnumCreatureType.MONSTER, biome);
 				biome.setEnableSnow();
 				biome.setTemperatureRainfall(0.0f, 0.0f);
 			}

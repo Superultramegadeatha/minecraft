@@ -15,7 +15,8 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
-import com.super_deathagon.monsters.entity.ai.EntityAIHiveTarget;
+import com.super_deathagon.monsters.entity.ai.EntityAIAttackWithGroup;
+import com.super_deathagon.monsters.entity.ai.EntityAIFollowTarget;
 import com.super_deathagon.util.EntityAttributeModifier;
 
 public class EntityHiveSpider2 extends EntitySpider{
@@ -33,13 +34,15 @@ public class EntityHiveSpider2 extends EntitySpider{
 		 this.targetTasks.taskEntries.remove(2);//target golem
 		 this.targetTasks.taskEntries.remove(1);//target player
 		 //this.tasks.addTask(2,new EntityHiveSpider2.AIAvoidPlayer());
-		 this.targetTasks.addTask(1, new EntityAIHiveTarget(this, 20.0, false));
+		 this.tasks.addTask(2,new EntityAIAttackWithGroup(this, EntityPlayer.class, 1.0, false));
+		 //this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false));
+		 this.targetTasks.addTask(3, new EntityAIFollowTarget(this, EntityPlayer.class, false));
     }
 
     @Override
     protected void applyEntityAttributes(){
         super.applyEntityAttributes();
-        EntityAttributeModifier.setFollowRange(this, 50.0);
+        EntityAttributeModifier.setFollowRange(this, 20.0);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35);
     }
 

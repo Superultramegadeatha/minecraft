@@ -47,4 +47,5 @@ public class EnchantmentAbility extends Enchantment implements IAbility{
 	}
 
 	public void useAbility(World world, EntityPlayer player, int level, int charge) {}
+	
 }

@@ -2,10 +2,7 @@ package com.super_deathagon.itemspecial.proxy.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.super_deathagon.itemspecial.SpecialItems;
 import com.super_deathagon.itemspecial.proxy.CommonProxy;
@@ -26,3 +23,4 @@ public class ClientProxy extends CommonProxy{
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.greatSword, DEFAULT_ITEM_SUBTYPE, bastardSwordResource);
 	}
 }
+

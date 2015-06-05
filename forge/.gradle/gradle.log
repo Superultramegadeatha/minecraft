@@ -6,6 +6,7 @@
  MCP Data version : snapshot_20141130
 ****************************
 <<<<<<< HEAD
+<<<<<<< HEAD
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
@@ -35,11 +36,18 @@ Note: Recompile with -Xlint:unchecked for details.
 =======
 :clean
 >>>>>>> refs/heads/Monsters
+=======
+:clean
+>>>>>>> refs/heads/Monsters
 
 BUILD SUCCESSFUL
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Total time: 14.267 secs
+=======
+Total time: 47.241 secs
+>>>>>>> refs/heads/Monsters
 =======
 Total time: 47.241 secs
 >>>>>>> refs/heads/Monsters

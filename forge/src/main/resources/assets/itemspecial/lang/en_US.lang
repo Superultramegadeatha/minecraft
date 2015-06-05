@@ -1,5 +1,8 @@
 item.itemspecialspear.name=Spear
+<<<<<<< HEAD
 item.itemspecialgreatsword.name=Great Sword
+=======
+>>>>>>> refs/heads/Monsters
 
 enchantment.usage=Right click/hold to use ability.
 enchantment.firebolt=Firebolt

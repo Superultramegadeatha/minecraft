@@ -1,7 +1,5 @@
 package com.super_deathagon.itemspecial.proxy;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -11,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.super_deathagon.itemspecial.items.ItemSpecialBastardSword;
+import com.super_deathagon.itemspecial.items.ItemSpecialGreatSword;
 import com.super_deathagon.itemspecial.items.ItemSpecialSpear;
 import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
@@ -24,7 +22,7 @@ import com.super_deathagon.itemspecial.network.server.ServerMessageHandler;
 public class CommonProxy{
 	public static SimpleNetworkWrapper network;
     public static ItemSpecialSpear spear;
-    public static ItemSpecialBastardSword bastardSword;
+    public static ItemSpecialGreatSword greatSword;
     
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
 		EnchantmentAbility.init();
@@ -38,14 +36,9 @@ public class CommonProxy{
 	
 	public void registerItems(){
         spear = (ItemSpecialSpear)(new ItemSpecialSpear().setUnlocalizedName("itemspecialspear"));
-        bastardSword = (ItemSpecialBastardSword)(new ItemSpecialBastardSword().setUnlocalizedName("itemspecialbastardsword"));
+        greatSword = (ItemSpecialGreatSword)(new ItemSpecialGreatSword().setUnlocalizedName("itemspecialgreatsword"));
         GameRegistry.registerItem(spear, "itemspecialspear");
-        GameRegistry.registerItem(bastardSword, "itemspecialbastardsword");
-		/*GameRegistry.addRecipe(new ItemStack(bastardSword), new Object[]{
-		     "   ",
-		     " A ",
-		     "   ", 
-		     'A', Blocks.dirt});*/
+        GameRegistry.registerItem(greatSword, "itemspecialgreatsword");
 	}
 	
 	public void registerNetworkWrapper(FMLPreInitializationEvent event){

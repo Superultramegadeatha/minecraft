@@ -23,15 +23,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.google.common.collect.Multimap;
 import com.super_deathagon.itemspecial.SpecialItems;
 
-public class ItemSpecialBastardSword extends ItemSpecialMeele{
+public class ItemSpecialGreatSword extends ItemSpecialMeele{
 	
     private float attackDamage;
     
-    public ItemSpecialBastardSword(){
+    public ItemSpecialGreatSword(){
     	super(ToolMaterial.EMERALD);
         //durability of an item
         this.setMaxDamage(100);
-        this.attackDamage = 9.0F;
+        this.attackDamage = 19.0F;
     }
     
     public float getStrVsBlock(ItemStack stack, Block block){
@@ -74,41 +74,6 @@ public class ItemSpecialBastardSword extends ItemSpecialMeele{
     @SideOnly(Side.CLIENT)
     public boolean isFull3D(){
         return true;
-    }
-    
-    /**
-     * Called when the player stops using an Item (stops holding the right mouse button).
-     *  
-     * @param timeLeft The amount of ticks left before the using would have been complete
-     */
-    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int timeLeft){
-        int j = (this.getMaxItemUseDuration(stack) - timeLeft);
-        int seconds = 4;
-        int ticks = 4*20;
-        if(j > ticks)
-        	j = ticks;
-        
-		super.useItemAbility(stack, world, player, j);
-	    stack.damageItem(1, player);
-	    if(stack.getItemDamage() == stack.getMaxDamage()){
-	    	destroyItemHeld(world, player);
-	    }
-    }
-    
-    @SideOnly(Side.CLIENT)
-    private void destroyItemHeld(World world, EntityPlayer player){
-    	player.inventory.decrStackSize(player.inventory.currentItem,1);
-		EffectRenderer rend = Minecraft.getMinecraft().effectRenderer;
-    	EntityFlameFX.Factory flameFXF = new EntityFlameFX.Factory();
-    	EntityFlameFX flameFX = (EntityFlameFX) flameFXF.getEntityFX(0, world, 
-    												player.posX + player.getLookVec().xCoord,
-    												player.posY + player.getLookVec().yCoord + player.getEyeHeight(),
-    												player.posZ + player.getLookVec().zCoord, 
-    												0, 0.05f, 0);
-    	System.out.println(player.getLookVec());
-    	flameFX.setRBGColorF(0.0f, 0f, 0.63f);
-    	rend.addEffect(flameFX);
-    	player.playSound("random.break", 1.0f, 1.0f);
     }
     
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn){

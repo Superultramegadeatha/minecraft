@@ -14,7 +14,6 @@ public class EntityAIFollowTarget extends EntityAINearestAttackableTarget{
 	public void updateTask(){
 		super.updateTask();
 		double distance = taskOwner.getDistanceToEntity(targetEntity);
-		System.out.println((distance > 10.0 || distance < 5.0) && taskOwner.getNavigator().noPath());
 		if((distance > 10.0 || distance < 5.0) && taskOwner.getNavigator().noPath())
 			moveBehindTarget();
 	}

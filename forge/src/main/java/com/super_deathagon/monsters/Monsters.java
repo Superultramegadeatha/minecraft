@@ -21,7 +21,7 @@ public class Monsters {
 
 	public static final String MODID = "monsters";
 	public static final String MODNAME = "Super's Monsters";
-	public static final String MODVERSION = "0.0.1";
+	public static final String MODVERSION = "0.0.4";
 
 	//@SidedProxy(clientSide="com.super_deathagon.monsters.proxy.client.ClientProxy", 
 	//			serverSide="com.super_deathagon.monsters.proxy.server.ServerProxy")

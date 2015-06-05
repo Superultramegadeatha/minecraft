@@ -9,7 +9,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.super_deathagon.itemspecial.items.ItemSpecialEyeWand;
 import com.super_deathagon.itemspecial.items.ItemSpecialGreatSword;
+import com.super_deathagon.itemspecial.items.ItemSpecialMeele;
 import com.super_deathagon.itemspecial.items.ItemSpecialSpear;
 import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
 import com.super_deathagon.itemspecial.network.client.ClientItemAbilityMessage;
@@ -21,6 +23,7 @@ public class CommonProxy{
 	public static SimpleNetworkWrapper network;
     public static ItemSpecialSpear spear;
     public static ItemSpecialGreatSword greatSword;
+    public static ItemSpecialEyeWand eyeWand;
     
 	public void fmlLifeCycleEvent(FMLPreInitializationEvent event){
 		EnchantmentAbility.init();
@@ -35,8 +38,10 @@ public class CommonProxy{
 	public void registerItems(){
         spear = (ItemSpecialSpear)(new ItemSpecialSpear().setUnlocalizedName("itemspecialspear"));
         greatSword = (ItemSpecialGreatSword)(new ItemSpecialGreatSword().setUnlocalizedName("itemspecialgreatsword"));
+        eyeWand = (ItemSpecialEyeWand) new ItemSpecialEyeWand().setUnlocalizedName("itemspecialeyewand");
         GameRegistry.registerItem(spear, "itemspecialspear");
         GameRegistry.registerItem(greatSword, "itemspecialgreatsword");
+        GameRegistry.registerItem(eyeWand, "itemspecialeyewand");
 	}
 	
 	public void registerNetworkWrapper(FMLPreInitializationEvent event){

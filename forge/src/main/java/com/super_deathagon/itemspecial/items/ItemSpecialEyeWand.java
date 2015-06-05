@@ -19,14 +19,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Multimap;
 
-public class ItemSpecialSpear extends ItemSpecialMeele{
+public class ItemSpecialEyeWand extends ItemSpecialMeele{
 	
     
-    public ItemSpecialSpear(){
+    public ItemSpecialEyeWand(){
     	super();
         //durability of an item
         this.setMaxDamage(100);
-        this.attackDamage = 9.0F;
+        this.attackDamage = 1.0F;
     }
     
     public float getStrVsBlock(ItemStack stack, Block block){
@@ -145,3 +145,4 @@ public class ItemSpecialSpear extends ItemSpecialMeele{
         return multimap;
     }
 }
+

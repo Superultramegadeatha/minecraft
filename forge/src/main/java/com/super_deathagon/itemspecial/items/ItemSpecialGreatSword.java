@@ -79,7 +79,7 @@ public class ItemSpecialGreatSword extends ItemSpecialMeele{
     }
 
     public EnumAction getItemUseAction(ItemStack stack){
-        return EnumAction.BOW;
+        return EnumAction.BLOCK;
     }
     
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn){

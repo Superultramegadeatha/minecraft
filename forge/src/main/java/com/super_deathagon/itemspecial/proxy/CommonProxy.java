@@ -54,4 +54,3 @@ public class CommonProxy{
 								CLIENT_ITEM_ABILITY_MESSAGE_ID, Side.CLIENT);
 	}
 }
-

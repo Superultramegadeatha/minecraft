@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.super_deathagon.itemspecial.items.itemabilities.EnchantmentAbility;
 import com.super_deathagon.itemspecial.util.LangString;
 
-
 public class ItemSpecialMeele extends Item{
     protected float attackDamage;
 

@@ -23,4 +23,3 @@ public class ClientProxy extends CommonProxy{
 	    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(CommonProxy.greatSword, DEFAULT_ITEM_SUBTYPE, bastardSwordResource);
 	}
 }
-

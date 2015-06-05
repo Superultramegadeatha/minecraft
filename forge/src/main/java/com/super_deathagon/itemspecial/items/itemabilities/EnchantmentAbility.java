@@ -5,6 +5,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraft.world.World;
 
 import com.super_deathagon.abilities.EnchantmentDetonate;
